@@ -55,22 +55,34 @@ plugins:
   - jekyll-include-cache
 
 author:
-  name   : "First Lastname"
-  avatar : "/assets/images/bio-photo.jpg"
-  bio    : "My awesome biography constrained to a sentence or two goes here."
+  name   : "Sayo-hs contributors"
+  avatar : "/assets/images/bio-photo.png"
+  bio    : "This is a development blog by [Riyo](https://github.com/ymdryo) and other contributors for [sayo-hs](https://github.com/sayo-hs)."
   links:
-    - label: "Website"
-      icon: "fas fa-fw fa-link"
-      url: "https://"
+#   - label: "Website"
+#     icon: "fas fa-fw fa-link"
+#     url: "https://"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/"
+      url: "https://github.com/sayo-hs"
+    - label: "Riyo's GitHub (@ymdryo)"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/ymdryo"
+    - label: "Riyo's X (@ymdfield)"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://x.com/ymdfield"
 
 footer:
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/"
+      url: "https://github.com/sayo-hs"
+    - label: "Riyo's GitHub (@ymdryo)"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/ymdryo"
+    - label: "Riyo's X (@ymdfield)"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://x.com/ymdfield"
 
 defaults:
   # _posts
