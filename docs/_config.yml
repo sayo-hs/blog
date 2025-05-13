@@ -113,3 +113,16 @@ category_archive:
 tag_archive:
   type: liquid
   path: /tags/
+
+comments:
+  provider: "giscus"
+  giscus:
+    repo_id: "R_kgDOOpCtUw"
+    category_name: "Comments"
+    category_id: "DIC_kwDOOpCtU84CqFRa"
+    discussion_term: "pathname"
+    reactions_enabled: "1"
+    theme: "preferred_color_scheme"
+    input_position: "top"
+
+repository: sayo-hs/blog
