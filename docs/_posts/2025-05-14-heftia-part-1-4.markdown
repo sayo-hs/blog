@@ -75,3 +75,7 @@ I’m grateful to all the Haskell library authors whose ongoing work has paved t
 Without their contributions, this project would not exist.
 
 Let us work together to build the future of the Haskell effect system ecosystem.
+
+---
+
+To be continued in Part 2-1...
