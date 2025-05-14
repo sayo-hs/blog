@@ -1,5 +1,5 @@
 ---
-title:  "Heftia: The Final Word in Haskell Effect System Libraries - Part 1-4"
+title:  "Heftia: The Final Word in Haskell Effect System Libraries - Part 1.4"
 author: riyo
 date:   2025-05-14 18:00:00 +0900
 categories:
@@ -10,10 +10,10 @@ excerpt: |
     First, we need to investigate precisely when the performance of higher-order effects, such as `Local`, becomes noticeably slow in realistic use cases. This means we need benchmarks involving more practical programs using various effects. Concrete performance improvements should ideally follow this investigation.
 ---
 
-[**Part 1-1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-part-1-1 %})<br>
-[**Part 1-2**: The performance of `heftia`]({% post_url 2025-05-14-heftia-part-1-2  %})<br>
-[**Part 1-3**: Issues with the increasingly popular `IO` monad approach]({% post_url 2025-05-14-heftia-part-1-3  %})<br>
-[**Part 1-4**: Future prospects of `heftia`]({% post_url 2025-05-14-heftia-part-1-4  %})
+[**Part 1.1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-part-1-1 %})<br>
+[**Part 1.2**: The performance of `heftia`]({% post_url 2025-05-14-heftia-part-1-2  %})<br>
+[**Part 1.3**: Issues with the increasingly popular `IO` monad approach]({% post_url 2025-05-14-heftia-part-1-3  %})<br>
+[**Part 1.4**: Future prospects of `heftia`]({% post_url 2025-05-14-heftia-part-1-4  %})
 
 # Future Challenges for `heftia`
 
@@ -32,7 +32,7 @@ In terms of ecosystem expansion, several effects are on my radar that I’d part
 ## Relaxing Restrictions When Combining Continuations and Higher-Order Effects
 
 Currently, interpreters that use delimited continuations face restrictions in the order of interpretation when combined with higher-order effects.
-Specifically, for example, it’s not possible to run `runCatch` before `runState`.
+Specifically, for example, it’s not possible to run `runState` before `runCatch`.
 Instead, `runCatch` must be run first, followed by `runState`.
 This constraint is necessary to maintain type safety and ensure sound semantics when delimited continuations interact with higher-order effects.
 
@@ -47,7 +47,11 @@ Additionally, interoperability with other effect libraries is essential.
 
 `heftia` already has basic interoperability established with existing Haskell ecosystem standards such as `mtl` and `unliftio`. `heftia`'s `Eff` monad provides instances for `MonadState`, `MonadRWS`, `MonadError`, and `MonadUnliftIO`. It's also possible to use the `Eff` monad similarly to monad transformers, allowing `heftia` to layer on top of existing monads.
 
-Currently, I am particularly interested in collaboration with `effectful` and `polysemy`. Unfortunately, this cannot be accomplished by me alone; cooperation from the community is necessary. These libraries may require interface adjustments to ensure compatibility. `polysemy` might be simpler since it is relatively close to `heftia`, potentially achievable solely through adjustments on `heftia`'s side. However, `effectful` poses greater difficulty due to significant differences in effect encoding compared to `heftia`.
+Currently, I am particularly interested in collaboration with `effectful` and `polysemy`.
+This cannot be accomplished by me alone; collaboration from the community is necessary.
+These libraries may require interface adjustments to ensure compatibility.
+`polysemy` might be simpler since it is relatively close to `heftia`, potentially achievable solely through adjustments on `heftia`'s side.
+However, `effectful` poses greater difficulty due to significant differences in effect encoding compared to `heftia`.
 
 If anyone is willing to assist, please reach out to me. Thank you.
 
@@ -78,4 +82,4 @@ Let us work together to build the future of the Haskell effect system ecosystem.
 
 ---
 
-To be continued in Part 2-1...
+To be continued in Part 2.1...

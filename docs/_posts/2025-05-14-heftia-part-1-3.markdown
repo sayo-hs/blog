@@ -1,5 +1,5 @@
 ---
-title:  "Heftia: The Final Word in Haskell Effect System Libraries - Part 1-3"
+title:  "Heftia: The Final Word in Haskell Effect System Libraries - Part 1.3"
 author: riyo
 date:   2025-05-14 18:00:00 +0900
 categories:
@@ -10,10 +10,10 @@ excerpt: |
     From here, I will describe the issues associated with the current general `IO` monad approach and the broader Haskell effect ecosystem.
 ---
 
-[**Part 1-1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-part-1-1 %})<br>
-[**Part 1-2**: The performance of `heftia`]({% post_url 2025-05-14-heftia-part-1-2  %})<br>
-[**Part 1-3**: Issues with the increasingly popular `IO` monad approach]({% post_url 2025-05-14-heftia-part-1-3  %})<br>
-[**Part 1-4**: Future prospects of `heftia`]({% post_url 2025-05-14-heftia-part-1-4  %})
+[**Part 1.1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-part-1-1 %})<br>
+[**Part 1.2**: The performance of `heftia`]({% post_url 2025-05-14-heftia-part-1-2  %})<br>
+[**Part 1.3**: Issues with the increasingly popular `IO` monad approach]({% post_url 2025-05-14-heftia-part-1-3  %})<br>
+[**Part 1.4**: Future prospects of `heftia`]({% post_url 2025-05-14-heftia-part-1-4  %})
 
 # Issues with the `IO` Monad Approach and Ecosystem
 
@@ -41,7 +41,8 @@ This style resembles lower-layer systems programming, in contrast to the abstrac
 
 This approach is designed explicitly to maximize performance. To be fair, these libraries consistently demonstrate strong benchmark results and are undeniably practical libraries currently available.
 
-However, it’s essential to recognize the compromises involved. This includes not only fewer features but also reduced composability, predictability, explainability, assurances against runtime errors, weakened type safety.
+However, it’s essential to recognize the compromises involved.
+This includes not only fewer features, but also reduced composability, predictability, explainability, weaker assurances against runtime errors, and diminished type safety.
 
 For example, currently, `effectful` and `bluefin` have issues causing runtime errors if [`MonadUnliftIO`](https://hackage.haskell.org/package/unliftio-core-0.2.1.0/docs/Control-Monad-IO-Unlift.html#t:MonadUnliftIO), a typeclass intended for safe exception handling, is improperly used.
 
@@ -75,11 +76,7 @@ I firmly believe maintaining this method is critical for the future of Haskell's
 
 [^4]: Libraries based on the "Weaving" approach, such as `polysemy` and `fused-effects`, have also experienced similar issues, now understood to result from inherent limitations in the approach's ad-hoc, non-theoretical structure.
 
-On the other hand, `heftia` directly implements categorical foundations described in academic papers. My work was merely translating types from Agda, checking equivalences, and ensuring types aligned with expected semantics—which they did from the outset. The relative ease and consistency of the implementation process provided strong anecdotal support for the robustness of this theory-driven methodology.
-
-On the other hand, `heftia` directly implements categorical foundations described in academic papers. What I did was simply translate the types written in Agda from the papers into Haskell, confirm various isomorphisms through equational reasoning. As soon as the functions were given types, all expected semantics were satisfied from the start. I was genuinely surprised while building `heftia` by how smoothly everything worked, and I felt the strength of this methodology firsthand.
-
-The smoothness of this process strongly confirmed the effectiveness of this methodology.
+On the other hand, `heftia` directly implements categorical foundations described in academic papers. What I did was simply translate the types written in Agda from the papers into Haskell, confirm various isomorphisms through equational reasoning. As soon as the functions were given types, all expected semantics were satisfied from the start. I was genuinely impressed by how smoothly everything worked during the development of `heftia`, which confirmed the strength of this methodology firsthand.
 
 ## The Ecosystem Dead-End
 
@@ -93,6 +90,6 @@ If you are interested, keep a close eye on developments in effect research over 
 
 ---
 
-[To be continued in Part 1-4...]({% post_url 2025-05-14-heftia-part-1-4 %})
+[To be continued in Part 1.4...]({% post_url 2025-05-14-heftia-part-1-4 %})
 
 [^10]: [Hefty Algebras: Modular Elaboration of Higher-Order Algebraic Effects. Casper Bach Poulsen & Cas van der Rest, POPL 2023.](https://dl.acm.org/doi/10.1145/3571255)

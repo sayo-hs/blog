@@ -1,5 +1,5 @@
 ---
-title:  "Heftia: The Final Word in Haskell Effect System Libraries - Part 1-2"
+title:  "Heftia: The Final Word in Haskell Effect System Libraries - Part 1.2"
 author: riyo
 date:   2025-05-14 18:00:00 +0900
 categories:
@@ -12,10 +12,10 @@ excerpt: |
     Below is a benchmark result of a typical real-world use case involving various effects and IO operations for aggregating file sizes. This benchmark was adapted from one originally used by `effectful`.
 ---
 
-[**Part 1-1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-part-1-1 %})<br>
-[**Part 1-2**: The performance of `heftia`]({% post_url 2025-05-14-heftia-part-1-2  %})<br>
-[**Part 1-3**: Issues with the increasingly popular `IO` monad approach]({% post_url 2025-05-14-heftia-part-1-3  %})<br>
-[**Part 1-4**: Future prospects of `heftia`]({% post_url 2025-05-14-heftia-part-1-4  %})
+[**Part 1.1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-part-1-1 %})<br>
+[**Part 1.2**: The performance of `heftia`]({% post_url 2025-05-14-heftia-part-1-2  %})<br>
+[**Part 1.3**: Issues with the increasingly popular `IO` monad approach]({% post_url 2025-05-14-heftia-part-1-3  %})<br>
+[**Part 1.4**: Future prospects of `heftia`]({% post_url 2025-05-14-heftia-part-1-4  %})
 
 # Performance
 
@@ -29,7 +29,7 @@ As you can see, `heftia` significantly outperforms libraries such as `mtl`, `pol
 Compared to `effectful`, currently the fastest among practical libraries, `heftia` is only slightly slower.
 Given that `heftia` is substantially faster than the current de facto standard `mtl` in typical use cases, performance concerns should not hinder adopting `heftia`.
 
-Other benchmarks show that in some cases (such as using `Throw`/`Catch` effects with `Except`), `heftia` even outperforms `effectful`.
+In fact, other benchmarks show that in some cases (such as using `Throw`/`Catch` effects with `Except`), `heftia` even outperforms `effectful`.
 
 While it is relatively slower in cases using the `Local` effect of the `Reader` monad, even then it remains faster than `polysemy` or `fused-effects`. In typical scenarios, you can choose the fastest approach, which closely matches `effectful`. Furthermore, this particular benchmark involves unrealistically heavy usage of `Local`, meaning performance concerns around `Reader` will rarely be an issue in real-world code.
 
@@ -56,4 +56,4 @@ Performance always has room for improvement, whereas correctness improvements ar
 
 ---
 
-[To be continued in Part 1-3...]({% post_url 2025-05-14-heftia-part-1-3 %})
+[To be continued in Part 1.3...]({% post_url 2025-05-14-heftia-part-1-3 %})
