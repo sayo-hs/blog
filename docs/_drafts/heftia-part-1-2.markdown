@@ -1,0 +1,50 @@
+---
+title:  "Heftia: The Final Word in Haskell Effect System Libraries - Part 1-2"
+author: riyo
+date:   2025-05-13 17:46:45 +0900
+categories:
+  - heftia
+tags:
+  - heftia
+---
+
+# Performance
+
+Let's start with performance.
+You can find all performance measurements for version 0.7 [here](https://github.com/sayo-hs/heftia/blob/v0.7.0.0/benchmark/performance.md).
+Below is a benchmark result of a typical real-world use case involving various effects and IO operations for aggregating file sizes. This benchmark was adapted from one originally used by `effectful`.
+
+<img src="{{ '/assets/images/heftia-part-1/filesize-deep.svg' | relative_url }}" alt="filesize-deep.svg">
+
+As you can see, `heftia` significantly outperforms libraries such as `mtl`, `polysemy`, and `fused-effects`.
+Compared to `effectful`, currently the fastest among practical libraries, `heftia` is only slightly slower.
+Given that `heftia` is substantially faster than the current de facto standard `mtl` in typical use cases, performance concerns should not hinder adopting `heftia`.
+
+Other benchmarks show that in some cases (such as using `Throw`/`Catch` effects with `Except`), `heftia` even outperforms `effectful`.
+
+While it is relatively slower in cases using the `Local` effect of the `Reader` monad, even then it remains faster than `polysemy` or `fused-effects`. In typical scenarios, you can choose the fastest approach, which closely matches `effectful`. Furthermore, this particular benchmark involves unrealistically heavy usage of `Local`, meaning performance concerns around `Reader` will rarely be an issue in real-world code.
+
+Some may have heard rumors that Freer monad-based libraries are slow[^1].
+However, despite internally using a variant of `Freer`, `heftia` achieves this level of performance.
+
+[^1]: Indeed, attempts to implement algebraic effects inherently result in Freer-like structures emerging. This phenomenon likely stems from underlying category-theoretic principles, meaning that implementations of algebraic effects—including languages like `Koka` and evidence-passing implementations—essentially encode Freer structures in various forms.
+
+**The notion that Freer is inherently slow is a misunderstanding**. Performance greatly depends on how the encoding is implemented, and there remains room for further optimization.
+Moreover, even `eff`, known for performance by directly interfacing with GHC internals without Freer structures, suffers from quadratic slowdowns relative to program size in certain effects.
+
+Performance discussions are complex[^5], and outcomes can vary with different GHC versions.
+
+[^5]: The causes for Freer's perceived slowness are multifaceted. One significant reason, identified in the paper "Reflection without Remorse," can be resolved by using a data structure called `FTCQueue`, enabling performance comparable to `effectful`.
+
+In any case, I will continue working on improving performance.
+
+Performance always has room for improvement, whereas correctness improvements are often impossible due to foundational interface compatibility. This asymmetry is crucial and will be discussed later.
+
+> Make It Work, Make It Right, Make It Fast. <cite><a href="https://kentbeck.com/">Kent Beck</a></cite>
+
+> 1.3 Make It Fast:
+> The final phase revolves around optimizing the performance of the software, making it faster and more efficient. However, the need for speed should not compromise the correctness and maintainability achieved in the previous phases. It is crucial to identify specific areas that require performance improvements and make targeted optimizations, rather than pursuing speed at the expense of code quality. <cite><a href="https://medium.com/@ibk9493/make-it-work-make-it-right-make-it-fast-the-evolution-of-software-development-fbbc1eddd33e">Make It Work, Make It Right, Make It Fast: The Evolution of Software Development</a></cite>
+
+---
+
+To be continued in Part 1-3...

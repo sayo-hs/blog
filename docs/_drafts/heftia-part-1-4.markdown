@@ -1,0 +1,58 @@
+---
+title:  "Heftia: The Final Word in Haskell Effect System Libraries - Part 1-4"
+author: riyo
+date:   2025-05-13 17:46:45 +0900
+categories:
+  - heftia
+tags:
+  - heftia
+---
+
+# Future Challenges for `heftia`
+
+## Performance Improvements
+
+First, we need to investigate precisely when the performance of higher-order effects, such as `Local`, becomes noticeably slow in realistic use cases. This means we need benchmarks involving more practical programs using various effects. Concrete performance improvements should ideally follow this investigation.
+
+## Real-World Use of `heftia`
+
+We also need some practical software that uses `heftia`. This is essential to demonstrate its real-world usability. I plan to start using `heftia` in other software projects going forward. This will help clarify which additional effects need to be supported and what interface improvements may be necessary.
+
+## Expanding the Ecosystem
+
+In terms of ecosystem expansion, several effects are on my radar that I’d particularly like to add—such as type-safe file system operations, shell scripting, networking, and other web-related functionality. As a prototype, I’ve already implemented a type-safe effect for using subprocesses: [Control.Monad.Hefty.Concurrent.Subprocess](https://hackage-content.haskell.org/package/heftia-effects-0.7.0.0/docs/Control-Monad-Hefty-Concurrent-Subprocess.html).
+
+## Expanding Interoperability
+
+Additionally, interoperability with other effect libraries is essential.
+
+`heftia` already has basic interoperability established with existing Haskell ecosystem standards such as `mtl` and `unliftio`. `heftia`'s `Eff` monad provides instances for `MonadState`, `MonadRWS`, `MonadError`, and `MonadUnliftIO`. It's also possible to use the `Eff` monad similarly to monad transformers, allowing `heftia` to layer on top of existing monads.
+
+Currently, I am particularly interested in collaboration with `effectful` and `polysemy`. Unfortunately, this cannot be accomplished by me alone; cooperation from the community is necessary. These libraries may require interface adjustments to ensure compatibility. `polysemy` might be simpler since it is relatively close to `heftia`, potentially achievable solely through adjustments on `heftia`'s side. However, `effectful` poses greater difficulty due to significant differences in effect encoding compared to `heftia`.
+
+If anyone is willing to assist, please reach out to me. Thank you.
+
+# Preventing Ecosystem Fragmentation
+
+Earlier, I listed several disadvantages of the `IO` monad approach, but these simply reflect `heftia`'s design philosophy, and I certainly do not think `IO` monad-based libraries shouldn't exist. On the contrary, when performance is critical, there is no reason to exclude any available approach. Ideally, multiple approaches should coexist, allowing users to choose freely. **The real problem lies in ecosystem fragmentation.** The core issue is the lock-in within each approach, causing a lack of interoperability.
+
+Finally, I have a request for those interested in implementing effects in Haskell:
+Please consider building an ecosystem robust to future theoretical developments, encouraging mutual interoperability, such as the [`data-effects`](https://github.com/sayo-hs/data-effects) approach advocated by `heftia`.
+
+`data-effects` provides a generic foundation for defining effects and interpreters, enabling interoperability (ecosystem connections) between the `IO` monad approach, the `heftia` approach, and other methods. Think of it as analogous to the [`Data.Vector.Generic`](https://hackage.haskell.org/package/vector-0.13.2.0/docs/Data-Vector-Generic.html) module from the `vector` library, but for effect systems.
+
+> * Built on the [`data-effects`](https://github.com/sayo-hs/data-effects) effect framework, `heftia` is designed so that it can integrate smoothly with other effect libraries built upon the same framework.
+> * Conversion between different libraries' `Eff` monads.
+> * `interpret` functions that work independently of any particular library.
+> * Currently, only `heftia` is based on this framework.
+> * This represents an initial attempt to resolve issues of incompatibility and lack of interoperability caused by the proliferation of effect libraries in Haskell.
+> * In addition to monads, an effect system built upon Applicative and Functor is also available.
+>
+> <cite><a href="https://github.com/sayo-hs/heftia/tree/master?tab=readme-ov-file#key-features">Approach to Inter-Library Compatibility</a></cite>
+
+**Let us stop repeating the cycle of migration hell.**
+
+I’m grateful to all the Haskell library authors whose ongoing work has paved the way for `heftia`.
+Without their contributions, this project would not exist.
+
+Let us work together to build the future of the Haskell effect system ecosystem.

@@ -1,0 +1,91 @@
+---
+title:  "Heftia: The Final Word in Haskell Effect System Libraries - Part 1-3"
+author: riyo
+date:   2025-05-13 17:46:45 +0900
+categories:
+  - heftia
+tags:
+  - heftia
+---
+
+# Issues with the `IO` Monad Approach and Ecosystem
+
+**Disclaimer**: I have no intention of criticizing or attacking the IO monad approach or its contributors. On the contrary, I'm hoping we can collaborate effectively and find ways to integrate different approaches.
+{: .notice--primary}
+
+From here, I will describe the issues associated with the current general `IO` monad approach and the broader Haskell effect ecosystem.
+
+## Type Safety
+
+One notable benefit of Haskell is the ability to mutually extend language features compatibly through libraries. This means you never encounter issues such as being unable to use `lens` because you chose `mtl`.
+This problem often arises when choosing among multiple programming languages—one language has feature *A* but lacks feature *B*, while another has *B* but lacks *A*...
+
+Supporting this benefit from below is the categorical theory behind these libraries. `mtl` also relies on categorical theory:
+
+> We show that state, reader, writer, and error monad transformers are instances of one general categorical construction: translation of a monad along an adjunction. <cite><a href="https://arxiv.org/abs/2503.20024">Calculating monad transformers with category theory</a></cite>
+
+As a result, the types and functions defined in these libraries correspond to theoretical entities. This provides correctness guarantees, predictability, explainability, the absence of runtime errors, and well-typedness based on underlying theory.
+
+This ensures that even complex, tricky, or innovative combinations of features—never anticipated by library developers—still work correctly. This is composability.
+
+However, libraries based on the `IO` monad approach tend to trade off some of these core advantages of Haskell for performance.
+Inspecting their source code compared to `lens` or `mtl`, you see frequent use of `IORef`, `error`, various validation checks, runtime errors, and `unsafe` functions.
+This style resembles lower-layer systems programming, in contrast to the abstractions typically associated with idiomatic Haskell.
+
+This approach is designed explicitly to maximize performance. To be fair, these libraries consistently demonstrate strong benchmark results and are undeniably practical libraries currently available.
+
+However, it’s essential to recognize the compromises involved. This includes not only fewer features but also reduced composability, predictability, explainability, assurances against runtime errors, weakened type safety.
+
+For example, currently, `effectful` and `bluefin` have issues causing runtime errors if [`MonadUnliftIO`](https://hackage.haskell.org/package/unliftio-core-0.2.1.0/docs/Control-Monad-IO-Unlift.html#t:MonadUnliftIO), a typeclass intended for safe exception handling, is improperly used.
+
+{% linkpreview "https://github.com/tomjaguarpaw/bluefin/issues/29" %}
+
+Yet, these errors could be prevented at compile time by correctly designed interfaces, as `heftia` does. Exception safety should be guaranteed by types, not runtime checks.
+
+## A Solid Foundation Based on Theory
+
+The methodology behind the `IO` monad approach involves iterative experimentation—implementing solutions, encountering issues, and then applying ad-hoc patches, similar to typical real-world software like web servers or mobile apps.
+
+This leads to a constant cycle of discovering and patching new issues. Such a methodology becomes increasingly risky near the core of an ecosystem.
+A foundational issue discovered later could necessitate interface changes so extensive that they would break compatibility across the ecosystem.
+
+Consider the billion-dollar mistake of `null` and Java’s current situation with `Optional`:
+
+{% include linkpreview.html
+    url="https://blogs.oracle.com/javamagazine/post/optional-class-null-pointer-drawbacks"
+    title="Nothing is better than the Optional type. Really. Nothing is better."
+    description="Optional has numerous problems without countervailing benefits. It does not make your code more correct or robust. There is a real problem that Optional tries to solve, and this article shows a better way to solve it. Therefore, you are better off using a regular and possibly null Java reference rather than Optional."
+    image="/assets/images/heftia-part-1/java-optional-class.png"
+%}
+
+The history of Haskell’s effect libraries has followed a similar pattern.
+
+However, "the Haskell way" offers a superior approach. By consistently translating mathematical concepts into Haskell code using algebraic data types, encoding categorical constructs through types, equational reasoning, and parametricity, we can guarantee from the outset the absence of various classes of bugs.
+
+I firmly believe maintaining this method is critical for the future of Haskell's effect system. Establishing theoretically sound interfaces helps prevent repeated costly migrations. `heftia` is intended as practical proof of this methodology.
+
+`IO` monad-based libraries like `effectful`, `cleff`, and `bluefin` continually discover and patch issues, as seen in GitHub issues.[^4]
+
+[^4]: Libraries based on the "Weaving" approach, such as `polysemy` and `fused-effects`, have also experienced similar issues, now understood to result from inherent limitations in the approach's ad-hoc, non-theoretical structure.
+
+On the other hand, `heftia` directly implements categorical foundations described in academic papers. My work was merely translating types from Agda, checking equivalences, and ensuring types aligned with expected semantics—which they did from the outset. The relative ease and consistency of the implementation process provided strong anecdotal support for the robustness of this theory-driven methodology.
+
+On the other hand, `heftia` directly implements categorical foundations described in academic papers. What I did was simply translate the types written in Agda from the papers into Haskell, confirm various isomorphisms through equational reasoning. As soon as the functions were given types, all expected semantics were satisfied from the start. I was genuinely surprised while building `heftia` by how smoothly everything worked, and I felt the strength of this methodology firsthand.
+
+The smoothness of this process strongly confirmed the effectiveness of this methodology.
+
+## The Ecosystem Dead-End
+
+Earlier, I mentioned issues related to Java’s `null` problem and type system. Currently, a similar situation is unfolding in Haskell's effect ecosystem.
+
+Combining algebraic effects (delimited continuations) and higher-order effects in a type-safe way likely requires defining first-order and higher-order effects separately. Although not yet proven theoretically, the "Hefty Algebras" paper[^10] strongly suggests this direction. It is likely that future theoretical work over the next few years will provide more precise justifications and formalization of this.
+
+Current interfaces of effect libraries, excluding `heftia`/`data-effects`, do not account for this eventuality. My prediction is that existing libraries and ecosystems will encounter this issue within a few years, forcing users to either continue giving up on algebraic effects or once again endure a costly migration.
+
+If you are interested, keep a close eye on developments in effect research over the coming years! Many theoretical and practical questions remain unanswered in the field of effects.
+
+---
+
+To be continued in Part 1-4...
+
+[^10]: [Hefty Algebras: Modular Elaboration of Higher-Order Algebraic Effects. Casper Bach Poulsen & Cas van der Rest, POPL 2023.](https://dl.acm.org/doi/10.1145/3571255)

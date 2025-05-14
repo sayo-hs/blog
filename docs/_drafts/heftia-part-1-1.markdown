@@ -1,0 +1,89 @@
+---
+title:  "Heftia: The Final Word in Haskell Effect System Libraries - Part 1-1"
+author: riyo
+date:   2025-05-13 17:46:45 +0900
+categories:
+  - heftia
+tags:
+  - heftia
+---
+
+In this series, I will explain `heftia`. This is the first part.
+
+**Part 1-1**: Summary of Part 1 and an overview of `heftia`<br>
+**Part 1-2**: The performance of `heftia`<br>
+**Part 1-3**: Issues with the increasingly popular `IO` monad approach<br>
+**Part 1-4**: Future prospects of `heftia`
+
+# Summary
+
+`heftia` is the first-ever fully type-safe and performant effect system, not just among Haskell libraries but historically across all effect system implementations and languages, to completely implement both *algebraic effects* and *higher-order effects*.
+
+{% linkpreview "https://github.com/sayo-hs/heftia?tab=readme-ov-file#getting-started" %}
+
+`heftia`, a practical next-generation effect library for Haskell, addresses the following major problems found in current effect libraries in a single unified solution:
+
+* **Problems with the `IO` Monad approach**
+
+  Issues inherent to the `IO` monad (`ReaderT IO`) approach employed by libraries such as `effectful`, `cleff`, and `bluefin`:
+
+  * Potential lack of type safety
+  * Fundamental inability to support algebraic effects (delimited continuations) due to reliance on `MonadUnliftIO`
+
+* **Semantic Soundness**
+
+  Unsound semantics that occur when combining higher-order effects with algebraic effects (delimited continuations) in effect libraries predating `effectful`, such as `polysemy`, `fused-effects`, and `freer-simple`
+
+* **Interoperability**
+
+  Fragmentation of the Haskell ecosystem and significant migration costs due to the proliferation of incompatible effect libraries
+
+# Overview
+
+`heftia` is a new effect system library for Haskell that I am currently developing. It uniquely provides practical, fully realized implementations of algebraic and higher-order effects with practical performance suitable for real-world use, unmatched by any other existing effect system or language.
+
+[Here](https://github.com/sayo-hs/heftia?tab=readme-ov-file#comparison) is a comparison table of `heftia` and other effect system implementations in terms of their features:
+
+
+| Library or Language | Higher-Order Effects | Algebraic Effects (Delimited Conts) |
+| ------------------- | -------------------- | ---------------------- |
+| `heftia`            | ✅                   | ✅                     |
+| `mtl`               | ⚠️                   | ⚠️                     |
+| `effectful`         | ✅                   | ❌                     |
+| `bluefin`           | ✅                   | ❌                     |
+| `polysemy`          | ✅                   | ❌                     |
+| `fused-effects`     | ✅                   | ❌                     |
+| `eff`               | ⚠️                   |  ✅                    |
+| `freer-simple`      | ❌                   | ✅                     |
+| `in-other-words`    | ✅                   | ⚠️                     |
+| `speff`             | ⚠️                   | ✅️                     |
+| Koka-lang           | ❌                   | ✅                     |
+| Eff-lang            | ❌                   | ✅                     |
+| OCaml-lang 5        | ❌                   | ✅️                     |
+
+✅ = Fully supported / sound<br>
+⚠️ = Partially supported or with semantic issues<br>
+❌ = Not supported<br>
+{: .notice--info}
+
+As shown, `heftia` is the only implementation that combines all of these features.
+
+As of the current version 0.7, `heftia` is already suitable for practical use.
+
+Over time, numerous Haskell effect libraries have been released, encountered problems, and been replaced by newer solutions. Libraries such as `fused-effects`, `polysemy`, and more recently `cleff`, `effectful`, and `bluefin`, have all emerged.
+
+Due to incompatibility among these libraries, migrating between them has incurred significant costs. Today, the community seeks a definitive solution that ends the cycle of migration hell.
+
+Recently, the `IO` monad approach (`ReaderT IO`) exemplified by `effectful` has attracted attention as the closest thing to such a definitive solution. It has been praised for improved performance and practical usability compared to previous approaches (`mtl` or Freer-based methods), albeit by sacrificing support for **algebraic effects (delimited continuations)**.
+
+You no longer have to sacrifice support for algebraic effects just to get high performance.
+Recent advancements in research on algebraic effects have continued vigorously.
+
+**Leveraging recent solid theoretical foundations[^10], `heftia` simultaneously provides algebraic effect capabilities and high performance, along with ultimate type safety, practicality, and enduring interoperability with other effect libraries.**
+
+---
+
+To be continued in Part 1-2...
+
+[^10]: [Hefty Algebras: Modular Elaboration of Higher-Order Algebraic Effects. Casper Bach Poulsen & Cas van der Rest, POPL 2023.](https://dl.acm.org/doi/10.1145/3571255)<br>
+    [A Framework for Higher-Order Effects & Handlers. Birthe van den Berg & Tom Schrijvers, Sci. Comput. Program. 2024.](https://doi.org/10.1016/j.scico.2024.103086)
