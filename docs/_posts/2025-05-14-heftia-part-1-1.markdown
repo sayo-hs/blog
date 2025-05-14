@@ -46,6 +46,20 @@ In this series, I will explain `heftia`. This is the first part.
 
 As of the current version 0.7, `heftia` is already suitable for practical use.
 
+* **Higher-order effects** are effects that take monadic actions as arguments.
+    In terms of monad transformers, examples include `local` in `ReaderT` and `catch` in `ExceptT`.
+    In contrast, operations like `put`/`get` in `StateT`, `ask` in `ReaderT`, and `throw` in `ExceptT` are classified as **first-order effects**.
+
+    Without higher-order effects, it becomes difficult to use functions like `local` or `catch` flexibly, which can be quite inconvenient.
+
+* **Algebraic effects** are a programming paradigm that has gained attention in recent years.
+    They are a language feature and theoretical framework aimed at improving composability and maintainability of programs.
+
+    They have applications in areas such as coroutines and concurrent programming, offering a unified way to express and use such constructs.
+    Algebraic effects extend existing control structures, allowing various kinds of control flows—like lightweight threads, asynchronous I/O, or exception handling—to be modularized safely and switched dynamically in a predictable manner.
+
+    In broad terms, they overcome the limitations of monad transformers, offering a more convenient, safer, and more predictable alternative.
+
 [Here](https://github.com/sayo-hs/heftia?tab=readme-ov-file#comparison) is a comparison table of `heftia` and other effect system implementations in terms of their features:
 
 
