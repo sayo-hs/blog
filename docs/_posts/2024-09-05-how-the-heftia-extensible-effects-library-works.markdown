@@ -13,10 +13,8 @@ This article is intended for the Haskell Extensible Effects (EE) community, focu
 
 [https://github.com/sayo-hs/heftia](https://github.com/sayo-hs/heftia)
 
-<!--
-**WARNING:** This article is outdated. For the most up-to-date information, please refer to [heftia]().
+**WARNING:** This article is outdated. For the most up-to-date information, please refer to [Heftia: The Final Word in Haskell Effect System Libraries]({% post_url 2025-05-17-heftia-part-1-1 %}).
 {: .notice--warning}
--->
 
 # Background
 As is widely known, the handling of higher-order effects in existing EE libraries is not perfect.
