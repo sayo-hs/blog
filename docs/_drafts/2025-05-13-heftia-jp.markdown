@@ -1,0 +1,243 @@
+---
+title:  "Heftia: The Final Word in Haskell Effect System Libraries - Part 1"
+author: riyo
+date:   2025-05-13 17:46:45 +0900
+categories:
+  - heftia
+tags:
+  - heftia
+---
+
+本連載では`heftia`の解説を行おうと思います。これはその最初のパートです。
+
+# TD;LR
+
+`heftia`はHaskellさらにはすべてのエフェクトシステム実装・言語において、*代数的エフェクト*と*高階エフェクト*を完全に型安全かつ高速な形で実装した史上初のエフェクトシステムです。
+
+{% linkpreview "https://github.com/sayo-hs/heftia?tab=readme-ov-file#getting-started" %}
+
+Haskellの実用可能な次世代エフェクトライブラリ`heftia`が、現状のエフェクトライブラリが抱える以下の問題を一挙に解決します。
+
+- **`IO`モナド方式の課題**
+
+    `effectful`、`cleff`、`bluefin`等の`IO`モナド方式 (`ReaderT IO`)が抱えている
+
+    - 潜在的な非型安全性
+    - `MonadUnliftIO`が原因の、代数的エフェクト（限定継続）機能をサポートすることの原理的な不可能性
+
+- **意味論の正しさ**
+
+    `effectful`以前のエフェクトライブラリ（`polysemy`, `fused-effects`, `freer-simple`等)が抱えている、高階エフェクトと代数的エフェクト（限定継続）を併用した際のunsoundなsemantics
+
+- **相互運用性**
+
+    Haskellにおけるエフェクトライブラリの乱立によるエコシステムの分断と移行コスト
+
+# 概要
+
+`heftia`は私が開発している、Haskellの新しいエフェクトシステムライブラリです。
+Haskellのエフェクトライブラリ、さらにはすべてのエフェクトシステムの実装・言語の中で唯一、完全な形で代数的エフェクトと高階エフェクトを実用的な速度で実現します。
+現在のバージョン0.7において、既に実用が可能です。
+
+これまで、数多くのHaskellのエフェクトライブラリがリリースされ、問題が発見され、それを解決する新たなライブラリが提示され、人々は数多くのライブラリを乗り換えてきました。
+`fused-effects`, `polysemy`, そして最近では`cleff`, `effectful`, `bluefin`, ...
+
+それらのライブラリは相互に互換性がないため、人々は乗り換えに多大なコストを払ってきました。
+今日では人々は、もうこれ以上乗り換えなくてもよい、最終的な解決策を望んでいます。
+
+最近は、`IO`モナド方式 (`ReaderT IO`) である`effectful`がそれに最も近いものとして期待を集めています。
+これは、**代数的エフェクト（限定継続）**の機能を諦めることで、それ以外の方式（`mtl`や`Freer`に基づくもの）よりも速度が優れており、より実用的になったと謳われています。
+
+しかし今、妥協はもはや必要ありません。
+近年、代数的エフェクトに関する研究はさらに盛んになり、進展を続けています。
+
+**近年の確固たる理論[^10]に依拠した`heftia`が、代数的エフェクト機能と速度の両方を、究極の型安全性、実用性、そして他エフェクトライブラリとの将来に渡る相互運用性と共に、両立して提供します。**
+
+[^10]: [Hefty Algebras: Modular Elaboration of Higher-Order Algebraic Effects. Casper Bach Poulsen & Cas van der Rest, POPL 2023.](https://dl.acm.org/doi/10.1145/3571255)<br>
+    [A Framework for Higher-Order Effects & Handlers. Birthe van den Berg & Tom Schrijvers, Sci. Comput. Program. 2024.](https://doi.org/10.1016/j.scico.2024.103086)
+
+# パフォーマンス
+まず、パフォーマンスについてです。
+バージョン0.7でのすべての測定結果は[こちら](https://github.com/sayo-hs/heftia/blob/v0.7.0.0/benchmark/performance.md)から見れます。
+以下に、ファイルサイズを集計する各種エフェクトやIO操作を含む、典型的なリアルワールドの使用例のベンチマークの結果を示します。
+このベンチマークは`effectful`で使われていたものを`heftia`に持ってきたものです。
+
+<img src="{{ '/assets/images/heftia-part-1/filesize-deep.svg' | relative_url }}" alt="filesize-deep.svg">
+
+このように、`mtl`, `polysemy`, `fused-effects`よりも圧倒的に高速です。
+現在実用的なライブラリの中で最速である`effectful`と比較しても、わずかに遅いだけに留まっています。
+典型的なユースケースにおいて、現在のデファクトスタンダードである`mtl`よりも圧倒的に高速であるので、`heftia`の採用を考える時、パフォーマンスで悩む余地はないでしょう。
+
+他のベンチマークではさらに、いくつかのケース（`Except`の`Throw`/`Catch`エフェクトの使用）では`effectful`よりも高速です。
+
+`Reader`の`Local`エフェクトを使用するケースでは比較的遅いものの、この場合も`polysemy`や`fused-effects`よりは高速で、
+典型的な使用法では`effectful`に近い最速のケースを選ぶことができます。
+このベンチマークでは非現実的なレベルで`Local`エフェクトを酷使しているので、
+リアルワールドなコードの場合は`Reader`のパフォーマンスが問題になることは少ないはずです。
+
+Freerモナドベースのライブラリは遅いという噂を聞いたことがある人があるかもしれません[^1]。
+しかしながら、`heftia`は内部で`Freer`の一種を使用していますが、この速度を達成しています。
+
+[^1]: 実は、代数的エフェクトを実現しようとすると必然的にFreerの構造が現れるようです。これはおそらく背後の圏論的構造に依拠しており、つまり`Koka`などの言語、エビデンスパッシングベースの実装含め、代数的エフェクトの実装はすべて、Freerを様々な形でエンコードしているに過ぎないのです。
+
+Freerは遅い - **これは誤解です**。
+全てはエンコーディング次第です。現状よりさらに高速化できる余地もあります。
+さらに、Freerを使用しておらずGHCの内部へアプローチしているため高速であるとされる`eff`すら実際は、エフェクトによってはプログラムの規模に対して二乗のオーダーで遅くなる
+というパフォーマンス上の大きな問題を抱えています。
+
+速度については話はあまり単純ではありません[^5]。GHCのバージョンによっても結果は変わります。
+
+[^5]: Freerが遅いとされてきた原因は複合的ですが、その原因のうちの一つは"Reflection without Remorse"という論文で以前より原因と解決策が提示されており、`FTCQueue`と呼ばれるデータ構造の使用により`effectful`のレベルに到達することができます。
+
+いずれにせよ、引き続き速度の改善に取り組んでいきます。
+
+速度はいつでも改善の余地があります。正しさの改善は、しばしば基盤インターフェースの互換性のために不可能であるのに対し、です。
+この非対称性はとても重要です。これについては後述します。
+
+> Make It Work, Make It Right, Make It Fast.
+> <cite><a href="https://kentbeck.com/">Kent Beck</a></cite>
+
+> 1.3 Make It Fast:
+> The final phase revolves around optimizing the performance of the software, making it faster and more efficient. However, the need for speed should not compromise the correctness and maintainability achieved in the previous phases. It is crucial to identify specific areas that require performance improvements and make targeted optimizations, rather than pursuing speed at the expense of code quality.
+> <cite><a href="https://medium.com/@ibk9493/make-it-work-make-it-right-make-it-fast-the-evolution-of-software-development-fbbc1eddd33e">Make It Work, Make It Right, Make It Fast: The Evolution of Software Development</a></cite>
+
+# `IO`モナド方式とエコシステムの課題
+
+ここからは、現在の`IO`モナド方式全般、そしてHaskellのエフェクトのエコシステムが抱えている課題について説明します。
+
+## 型安全性
+
+Haskellのメリットとして顕著なのは、「ライブラリによって言語機能を相互に互換な形で拡張していける」という点です。
+つまり、`mtl`を使用したら`lens`は使用できない、というようなことはないということです[^2]。
+
+[^2]: 複数のプログラミング言語から一つ選ぶとき、典型的にこの問題が浮き上がってくる。この言語にはAはあるけどBはない、あの言語にはBがあるけどAがない…。
+
+そしてこれを下から安全な形で支えているのが、それらの背後にある圏論的な理論です。
+`mtl`もまた、背後に圏論的な理論が存在しています。
+
+> We show that state, reader, writer, and error monad transformers are instances of one general categorical construction: translation of a monad along an adjunction.
+> <cite><a href="https://arxiv.org/abs/2503.20024">Calculating monad transformers with category theory</a></cite>
+
+その結果として、それらのライブラリにおいて定義されている型や関数は、理論の中の存在と対応させることができ、
+正しさの保証と、背後の理論に基づく結果の予測可能性・説明可能性、その他ランタイムエラーがないことの保証、well-typednessが得られます。
+
+このおかげで、それぞれの開発時には想定していなかったような、どんな複雑で、トリッキーで、イノベーショナルな組み合わせ方をしても、ちゃんと動作するのです。
+合成可能性です。
+
+`IO`モナド方式のライブラリは共通して、このHaskellのせっかくのメリットに逆行することになります。
+それはライブラリのソースコードを見るとわかります。
+`lens`や`mtl`のコードと比較すると、それらの内部では`IORef`、`error`、その他さまざまなバリデーション処理とランタイムエラーと`unsafe`関数が多用されています。
+Haskellのコードというよりもどちらかといえば低レイヤーな処理を行うC言語のコードのような印象を受けることになるでしょう。
+
+これは、とにかくパフォーマンスを引き出そうとする設計思想の産物です。
+公平のために言わせてください - それらは実際、ベンチマークにおいて確実な結果を挙げており、`heftia`以外の現存するすべてのライブラリの中で最も実用的なライブラリであることは間違いありません。
+
+しかし、それにより諦めることになるものについて、人々は知っておく必要があります。
+その中には、単に機能の充実さだけでなく、挙動の予測可能性、説明可能性、ランタイムエラーが無いことの保証、型安全性の保証といったものが含まれます。
+
+例えば、`effectful`と`bluefin`には現在、例外を安全に処理するための[`MonadUnliftIO`](https://hackage.haskell.org/package/unliftio-core-0.2.1.0/docs/Control-Monad-IO-Unlift.html#t:MonadUnliftIO)を不適切に使用するとランタイムエラーが発生するという問題があります。
+これは`effectful`では現在、問題ではなくむしろ仕様としているようです。
+
+{% linkpreview "https://github.com/tomjaguarpaw/bluefin/issues/29" %}
+
+しかしこれは本来、`heftia`がそうしているように、インターフェースを正しく設計することで、型によって実行前に防ぐことが可能なエラーです。
+例外安全性は、実行時チェックではなく型により守られるべきです。
+
+## 理論に基づく強固な地盤
+
+`IO`モナド方式の方法論は、試しに実装してみて、不都合があったら、それを治すためのアドホックなパッチを当てる、その繰り返しのプロセスです。
+Webサーバーやスマートフォンアプリといった、典型的なリアルワールドなソフトウェアプロダクトと同じようにです。
+
+結果的にそれは、新たな問題が発見され修正しを繰り返す、もぐらたたきの様相を呈します。
+そして、この方法論は、エコシステムの中心に近くなるほど危険になります - ある不都合を治すために、もはやエコシステムの互換性を完全に破壊してしまう、どうしようもないほど根本的なインターフェースの変更が必要なものが見つかってしまったら、どうでしょうか？
+
+nullによる10億ドルの失敗と、JavaのOptionalの現状についてよく考えてみてください。
+
+{% include linkpreview.html
+    url="https://blogs.oracle.com/javamagazine/post/optional-class-null-pointer-drawbacks"
+    title="Nothing is better than the Optional type. Really. Nothing is better."
+    description="Optional has numerous problems without countervailing benefits. It does not make your code more correct or robust. There is a real problem that Optional tries to solve, and this article shows a better way to solve it. Therefore, you are better off using a regular and possibly null Java reference rather than Optional."
+    image="/assets/images/heftia-part-1/java-optional-class.png"
+    %}
+
+Haskellのエフェクトライブラリの歴史もまた、その繰り返しでした。
+
+「Haskell流のやり方」は、しかし、その上を行くものです。
+
+型による圏論的対象のエンコーディング。等式推論。parametricity。
+これらの道具立てにより、数学の言葉をHaskellのコードに翻訳する作業を着実に行いさえすれば、**様々な種類の不都合を、初めから無いことを保証できるのです。**
+これを可能にするのが、Haskellが得意とする、代数的データ型と型システムに基づく方法論です。
+
+私は、エフェクトライブラリもまたその方法を貫くことが、Haskellのエフェクトシステムの将来にとって正しい道であると確信しています。
+理論により正当性を保証されたインターフェースで基礎を固めることが、これ以上の「乗り換え地獄」を防ぐことに繋がるからです。
+`heftia`はいわば、この方法論が実際に実用に耐えることを証明するためのものなのです。
+
+`effectful`, `cleff`, `bluefin`などの`IO`モナド方式のライブラリは、GitHub issuesを見るとわかりますが、様々な不具合が見つかっては修正するを繰り返すことで開発が行われています[^4]。
+
+一方で`heftia`は、論文に書いてある圏論的な基礎付けのなされた事柄を、単にただそのまま持ってきただけです。
+私がやったことは、単に論文中のAgda言語で書かれた型をHaskellに翻訳して、各種の同型性を等式変形により確認しただけです。
+そして、関数たちに型が付いた途端、期待される意味論が**最初から**すべて満たされていました。一発完動です。
+私自身、`heftia`を作っていて、あまりのスムーズさに驚き、この方法論の力強さを感じました。
+
+[^4]: さらに`polysemy`, `fused-effects`といった"Weaving"方式に基づくものも、同様のことが起こっていました。これはWeavingが圏論的な基礎付けのないアドホックなものであることが原因です。
+
+## エコシステムの袋小路
+
+先程、nullの失敗とJavaの型システムの現状について少し触れました。
+私の考えでは、実際、これと同じことが、まさに今現在、Haskellのエフェクトのエコシステムにおいても起こっています。
+
+代数的エフェクト（限定継続）の機能と高階エフェクトの機能を型安全な形で両立させようとすると、一階エフェクトと高階エフェクトを型として別々に定義する必要がある、ということについてです。
+まだこれは理論的に証明されたことではなく、"Hefty Algebras"の論文[^10]から示唆されているに過ぎませんが、今後数年でこれに関連する論文が出てくるかと思います。
+
+`heftia`/`data-effects`以外の現状のエフェクトライブラリのインターフェースはこのことを想定していないまま作られてしまっています。
+私は予言しますが、`heftia`以外の現段階のエフェクトライブラリのインターフェース、そしてそれに立脚したエコシステムは、数年以内にこの問題にぶつかるはずです。
+そしてその時人々は、代数的エフェクトを諦め続けるか、また再びコストを払って乗り換えを行うかの選択を迫られるでしょう。
+
+もし興味があれば、今後数年間、エフェクト研究の動向を注視してください！
+まだまだエフェクトの世界は理論的にも実用上も未知のことが多いのです。
+
+# `heftia`の今後の課題と展望
+
+まず、`Local`等の高階エフェクトのパフォーマンスが、リアルワールドな使用法において、どのような場合に遅さが顕在化するかの調査が必要です。
+つまり、様々なエフェクトを使用した、より現実的なプログラムのベンチマークをいくつか考える必要があります。
+具体的のパフォーマンスの改善は、このプロセスの後に行うのが良いでしょう。
+
+また、他エフェクトライブラリとの相互運用性も重要です。
+
+既に`mtl`や`unliftio`等の既存のHaskellのデファクトスタンダードなエコシステムとは基本的な相互運用性を確立しています。
+`heftia`の`Eff`モナドは`MonadState`, `MonadRWS`, `MonadError`, `MonadUnliftIO`などのインスタンスになります。
+`Eff`モナドをトランスフォーマーのように使用し、既存のモナドの上に`heftia`を「乗せる」こともできます。
+
+今私が取り組みたいと思っていることは、`effectful`・`polysemy`との連携です。
+ただ、残念ながらこれは私一人で可能なことではなく、みなさんの協力が必要です。
+というのも、これらのライブラリ側でもインターフェースを調整し、擦り合わせる必要があると考えられるからです。
+おそらく`polysemy`は比較的`heftia`と近いのでやりやすいかもしれません。ひょっとしたら`heftia`側だけで完結するかもしれないです。
+ただ`effectful`は、エフェクトのエンコーディングが`heftia`のものとだいぶ異なるので、少し困難なところがあります。
+
+もし協力してくださる方がいたら幸いです。私に連絡をください。
+
+## エコシステムの分断を防ぐ
+
+先程、`IO`モナド方式のデメリットを多く挙げましたが、あれはあくまで`heftia`の設計思想であって、
+`IO`モナド方式のライブラリが存在すべきでないとは全く思いません。
+むしろ、とにかくパフォーマンスが必要という状況であれば、すべての方式を考慮に入れない理由はありません。
+様々な方式が存在していて、それをユーザーが選べるというのは理想的な状況です。
+問題なのは、エコシステムの分断です。各方式でロックインが発生し、方式間の相互運用性がないことこそが問題の核心なのです。
+
+最後に、Haskell上でエフェクトを実装することに興味のある方々にお願いがあります。
+`heftia`の提唱する[`data-effects`](https://github.com/sayo-hs/data-effects)のアプローチのように、どうか、将来の理論の更新に対してロバストな、相互に連携可能なエコシステムを築くことを意識してください。
+
+`data-effects`では、`IO`モナド方式と`heftia`方式、その他さまざまな方式間での相互連携（エコシステムの接続）を可能にする、エフェクト及びインタプリタの定義のためのジェネリックな基盤を提供しています。
+イメージとしては、`vector`ライブラリの[`Data.Vector.Generic`](https://hackage.haskell.org/package/vector-0.13.2.0/docs/Data-Vector-Generic.html)モジュールのエフェクトシステム版のようなものです。
+
+> - Built on the [`data-effects`](https://github.com/sayo-hs/data-effects) effect framework, `heftia` is designed so that it can integrate smoothly with other effect libraries that are built upon the same framework.
+> - Conversion between different libraries' `Eff` monads.
+> - `interpret` functions that works independently of any particular library.
+> - At present, only `heftia` is based on this framework.
+> - This represents an initial attempt to resolve the issues of incompatibility and lack of interoperability caused by the proliferation of effect libraries in Haskell.
+> - In addition to monads, an effect system built on Applicative and Functor is also available.
+>
+> <cite><a href="https://github.com/sayo-hs/heftia/tree/master?tab=readme-ov-file#key-features">Approach to Inter-Library Compatibility</a></cite>
+
+**もうこれ以上、乗り換え地獄を繰り返さないようにしましょう。**
+協力して、共にHaskellエフェクトシステムのエコシステムの未来を築いていきましょう。

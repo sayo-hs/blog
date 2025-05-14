@@ -1,0 +1,22 @@
+{% assign title = include.title | default: title %}
+{% assign description = include.description | default: description %}
+{% assign image = include.image | default: image %}
+{% assign url = include.url | default: url %}
+
+<div class="link-preview">
+  <a href="{{ url }}" target="_blank" rel="noopener noreferrer">
+    {% if image %}
+      <div class="link-preview__media">
+        <img
+          src="{{ image }}"
+          alt="{{ title }}"
+          class="link-preview__image"
+        >
+      </div>
+    {% endif %}
+    <div class="link-preview__body">
+      <h3 class="link-preview__title">{{ title }}</h3>
+      <p class="link-preview__description">{{ description }}</p>
+    </div>
+  </a>
+</div>

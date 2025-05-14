@@ -53,10 +53,11 @@ plugins:
   - jekyll-feed
   - jemoji
   - jekyll-include-cache
+  - jekyll-linkpreview
 
 author:
   name   : "Sayo-hs contributors"
-  avatar : "/assets/images/bio-photo.png"
+  avatar : "/assets/images/bio-photo/sayo-hs.png"
   bio    : "This is a development blog by [Riyo](https://github.com/ymdryo) and other contributors for [sayo-hs](https://github.com/sayo-hs)."
   links:
 #   - label: "Website"
@@ -91,8 +92,8 @@ defaults:
       type: posts
     values:
       layout: single
-      classes: wide
       toc: true
+      toc_sticky: true
       author_profile: true
       read_time: true
       comments: true

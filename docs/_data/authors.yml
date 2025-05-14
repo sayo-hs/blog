@@ -1,0 +1,10 @@
+riyo:
+  name: "Riyo"
+  avatar: "/assets/images/bio-photo/riyo.png"
+  links:
+    - label: "GitHub @ymdryo"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/ymdryo"
+    - label: "X @ymdfield"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://x.com/ymdfield"

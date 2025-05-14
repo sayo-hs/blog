@@ -1,0 +1,72 @@
+//── 変数定義 ──────────────────────────────────
+$link-preview-max:     800px;
+$link-preview-border:  #ddd;
+$link-preview-radius:  8px;
+$link-preview-shadow:  0 2px 8px rgba(0, 0, 0, 0.1);
+$link-preview-gap:     1rem;
+$link-text-color:      inherit;
+$link-description-color: #555;
+
+//── 本体 ─────────────────────────────────────
+.link-preview {
+  display: flex;
+  max-width: $link-preview-max;
+  margin: $link-preview-gap auto;
+  border: 1px solid $link-preview-border;
+  border-radius: $link-preview-radius;
+  overflow: hidden;
+  box-shadow: $link-preview-shadow;
+
+  a {
+    display: flex;
+    width: 100%;
+    color: $link-text-color;
+    text-decoration: none;
+  }
+
+  &__media {
+    flex: 0 0 40%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: #f8f8f8; // 余白を目立たせない背景
+
+    .link-preview__image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;    // 切り取りを防止
+      object-position: center;
+    }
+  }
+
+  &__body {
+    flex: 1;
+    padding: $link-preview-gap;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &__title,
+  &__description {
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+
+  &__title {
+    font-size: 1.125rem;
+    line-height: 1;
+    -webkit-line-clamp: 2;   // タイトルは最大2行に抑制
+  }
+
+  &__description {
+    margin-top: 0.5rem;
+    color: $link-description-color;
+    font-size: 0.95rem;
+    line-height: 1;
+    -webkit-line-clamp: 3;   // 説明文は最大3行に抑制
+  }
+}
