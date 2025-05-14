@@ -127,3 +127,5 @@ comments:
     input_position: "top"
 
 repository: sayo-hs/blog
+
+baseurl: "/blog"
