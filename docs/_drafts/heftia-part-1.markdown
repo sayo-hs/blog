@@ -108,7 +108,9 @@ As a result, the types and functions defined in these libraries correspond to th
 
 This ensures that even complex, tricky, or innovative combinations of features—never anticipated by library developers—still work correctly. This is composability.
 
-However, libraries based on the `IO` monad approach uniformly move against these valuable advantages of Haskell. Inspecting their source code compared to `lens` or `mtl`, you see frequent use of `IORef`, `error`, various validation checks, runtime errors, and `unsafe` functions. It gives the impression of lower-layer, C-like code rather than typical Haskell code.
+However, libraries based on the `IO` monad approach tend to trade off some of these core advantages of Haskell for performance.
+Inspecting their source code compared to `lens` or `mtl`, you see frequent use of `IORef`, `error`, various validation checks, runtime errors, and `unsafe` functions.
+This style resembles lower-layer systems programming, in contrast to the abstractions typically associated with idiomatic Haskell.
 
 This approach is designed explicitly to maximize performance. To be fair, these libraries consistently demonstrate strong benchmark results and are undeniably practical libraries currently available.
 
@@ -124,7 +126,8 @@ Yet, these errors could be prevented at compile time by correctly designed inter
 
 The methodology behind the `IO` monad approach involves iterative experimentation—implementing solutions, encountering issues, and then applying ad-hoc patches, similar to typical real-world software like web servers or mobile apps.
 
-This leads to a constant cycle of discovering and patching new issues, resembling a game of whack-a-mole. Such a methodology becomes increasingly risky near the core of an ecosystem—what if a newly discovered fundamental flaw requires interface changes severe enough to completely break ecosystem compatibility?
+This leads to a constant cycle of discovering and patching new issues, resembling a game of whack-a-mole. Such a methodology becomes increasingly risky near the core of an ecosystem.
+A foundational issue discovered later could necessitate interface changes so extensive that they would break compatibility across the ecosystem.
 
 Consider the billion-dollar mistake of `null` and Java’s current situation with `Optional`:
 
@@ -143,13 +146,13 @@ I firmly believe maintaining this method is critical for the future of Haskell's
 
 `IO` monad-based libraries like `effectful`, `cleff`, and `bluefin` continually discover and patch issues, as seen in GitHub issues.[^4]
 
-On the other hand, `heftia` directly implements categorical foundations described in academic papers. My work was merely translating types from Agda, checking equivalences, and ensuring types aligned with expected semantics—which they did from the outset. The smoothness of this process strongly confirmed the effectiveness of this methodology.
+[^4]: Libraries based on the "Weaving" approach, such as `polysemy` and `fused-effects`, have also experienced similar issues, now understood to result from inherent limitations in the approach's ad-hoc, non-theoretical structure.
+
+On the other hand, `heftia` directly implements categorical foundations described in academic papers. My work was merely translating types from Agda, checking equivalences, and ensuring types aligned with expected semantics—which they did from the outset. The relative ease and consistency of the implementation process provided strong anecdotal support for the robustness of this theory-driven methodology.
 
 On the other hand, `heftia` directly implements categorical foundations described in academic papers. What I did was simply translate the types written in Agda from the papers into Haskell, confirm various isomorphisms through equational reasoning. As soon as the functions were given types, all expected semantics were satisfied from the start. I was genuinely surprised while building `heftia` by how smoothly everything worked, and I felt the strength of this methodology firsthand.
 
 The smoothness of this process strongly confirmed the effectiveness of this methodology.
-
-[^4]: Libraries based on the "Weaving" approach, such as `polysemy` and `fused-effects`, experienced similar issues due to their ad-hoc, non-theoretical foundations.
 
 ## The Ecosystem Dead-End
 
@@ -192,4 +195,8 @@ Please consider building an ecosystem robust to future theoretical developments,
 > <cite><a href="https://github.com/sayo-hs/heftia/tree/master?tab=readme-ov-file#key-features">Approach to Inter-Library Compatibility</a></cite>
 
 **Let us stop repeating the cycle of migration hell.**
+
+I’m grateful to all the Haskell library authors whose ongoing work has paved the way for `heftia`.
+Without their contributions, this project would not exist.
+
 Let us work together to build the future of the Haskell effect system ecosystem.
