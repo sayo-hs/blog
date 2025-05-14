@@ -58,7 +58,7 @@ As of the current version 0.7, `heftia` is already suitable for practical use.
     They have applications in areas such as coroutines and concurrent programming, offering a unified way to express and use such constructs.
     Algebraic effects extend existing control structures, allowing various kinds of control flows—like lightweight threads, asynchronous I/O, or exception handling—to be modularized safely and switched dynamically in a predictable manner.
 
-    In broad terms, they overcome the limitations of monad transformers, offering a more convenient, safer, and more predictable alternative.
+    Roughly speaking, they overcome the limitations of monad transformers, offering a more convenient, safer, and more predictable alternative.
 
 [Here](https://github.com/sayo-hs/heftia?tab=readme-ov-file#comparison) is a comparison table of `heftia` and other effect system implementations in terms of their features:
 
