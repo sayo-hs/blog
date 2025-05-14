@@ -17,7 +17,7 @@ excerpt: |
 
 # Issues with the `IO` Monad Approach and Ecosystem
 
-**Disclaimer**: I have no intention of criticizing or attacking the IO monad approach or its contributors. On the contrary, I'm hoping we can collaborate effectively and find ways to interoperate different approaches.
+**Disclaimer**: This is not intended as a criticism of the IO monad approach or its contributors. My aim is to explore the trade-offs and foster better collaboration between different approaches.
 {: .notice--primary}
 
 From here, I will describe the issues associated with the current general `IO` monad approach and the broader Haskell effect ecosystem.
