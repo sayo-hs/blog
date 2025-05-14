@@ -1,7 +1,7 @@
 ---
 title:  "Heftia: The Final Word in Haskell Effect System Libraries - Part 1-2"
 author: riyo
-date:   2025-05-17 18:00:00 +0900
+date:   2025-05-14 18:00:00 +0900
 categories:
   - heftia
 tags:
@@ -12,10 +12,10 @@ excerpt: |
     Below is a benchmark result of a typical real-world use case involving various effects and IO operations for aggregating file sizes. This benchmark was adapted from one originally used by `effectful`.
 ---
 
-[**Part 1-1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-17-heftia-part-1-1 %})<br>
-[**Part 1-2**: The performance of `heftia`]({% post_url 2025-05-17-heftia-part-1-2  %})<br>
-[**Part 1-3**: Issues with the increasingly popular `IO` monad approach]({% post_url 2025-05-17-heftia-part-1-3  %})<br>
-[**Part 1-4**: Future prospects of `heftia`]({% post_url 2025-05-17-heftia-part-1-4  %})
+[**Part 1-1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-part-1-1 %})<br>
+[**Part 1-2**: The performance of `heftia`]({% post_url 2025-05-14-heftia-part-1-2  %})<br>
+[**Part 1-3**: Issues with the increasingly popular `IO` monad approach]({% post_url 2025-05-14-heftia-part-1-3  %})<br>
+[**Part 1-4**: Future prospects of `heftia`]({% post_url 2025-05-14-heftia-part-1-4  %})
 
 # Performance
 
@@ -56,4 +56,4 @@ Performance always has room for improvement, whereas correctness improvements ar
 
 ---
 
-[To be continued in Part 1-3...]({% post_url 2025-05-17-heftia-part-1-3 %})
+[To be continued in Part 1-3...]({% post_url 2025-05-14-heftia-part-1-3 %})

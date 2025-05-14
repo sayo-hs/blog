@@ -1,7 +1,7 @@
 ---
 title:  "Heftia: The Final Word in Haskell Effect System Libraries - Part 1-4"
 author: riyo
-date:   2025-05-17 18:00:00 +0900
+date:   2025-05-14 18:00:00 +0900
 categories:
   - heftia
 tags:
@@ -10,10 +10,10 @@ excerpt: |
     First, we need to investigate precisely when the performance of higher-order effects, such as `Local`, becomes noticeably slow in realistic use cases. This means we need benchmarks involving more practical programs using various effects. Concrete performance improvements should ideally follow this investigation.
 ---
 
-[**Part 1-1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-17-heftia-part-1-1 %})<br>
-[**Part 1-2**: The performance of `heftia`]({% post_url 2025-05-17-heftia-part-1-2  %})<br>
-[**Part 1-3**: Issues with the increasingly popular `IO` monad approach]({% post_url 2025-05-17-heftia-part-1-3  %})<br>
-[**Part 1-4**: Future prospects of `heftia`]({% post_url 2025-05-17-heftia-part-1-4  %})
+[**Part 1-1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-part-1-1 %})<br>
+[**Part 1-2**: The performance of `heftia`]({% post_url 2025-05-14-heftia-part-1-2  %})<br>
+[**Part 1-3**: Issues with the increasingly popular `IO` monad approach]({% post_url 2025-05-14-heftia-part-1-3  %})<br>
+[**Part 1-4**: Future prospects of `heftia`]({% post_url 2025-05-14-heftia-part-1-4  %})
 
 # Future Challenges for `heftia`
 

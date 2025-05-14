@@ -1,7 +1,7 @@
 ---
 title:  "Heftia: The Final Word in Haskell Effect System Libraries - Part 1-1"
 author: riyo
-date:   2025-05-17 18:00:00 +0900
+date:   2025-05-14 18:00:00 +0900
 categories:
   - heftia
 tags:
@@ -10,10 +10,10 @@ excerpt: |
     `heftia` is the first-ever fully type-safe and performant effect system, not just among Haskell libraries but historically across all effect system implementations and languages, to completely implement both *algebraic effects* and *higher-order effects*.
 ---
 
-[**Part 1-1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-17-heftia-part-1-1 %})<br>
-[**Part 1-2**: The performance of `heftia`]({% post_url 2025-05-17-heftia-part-1-2  %})<br>
-[**Part 1-3**: Issues with the increasingly popular `IO` monad approach]({% post_url 2025-05-17-heftia-part-1-3  %})<br>
-[**Part 1-4**: Future prospects of `heftia`]({% post_url 2025-05-17-heftia-part-1-4  %})
+[**Part 1-1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-part-1-1 %})<br>
+[**Part 1-2**: The performance of `heftia`]({% post_url 2025-05-14-heftia-part-1-2  %})<br>
+[**Part 1-3**: Issues with the increasingly popular `IO` monad approach]({% post_url 2025-05-14-heftia-part-1-3  %})<br>
+[**Part 1-4**: Future prospects of `heftia`]({% post_url 2025-05-14-heftia-part-1-4  %})
 
 In this series, I will explain `heftia`. This is the first part.
 
@@ -138,7 +138,7 @@ When using `put`/`get` of `State`, there's no need to explicitly specify types l
 
 ---
 
-[To be continued in Part 1-2...]({% post_url 2025-05-17-heftia-part-1-2 %})
+[To be continued in Part 1-2...]({% post_url 2025-05-14-heftia-part-1-2 %})
 
 [^10]: [Hefty Algebras: Modular Elaboration of Higher-Order Algebraic Effects. Casper Bach Poulsen & Cas van der Rest, POPL 2023.](https://dl.acm.org/doi/10.1145/3571255)<br>
     [A Framework for Higher-Order Effects & Handlers. Birthe van den Berg & Tom Schrijvers, Sci. Comput. Program. 2024.](https://doi.org/10.1016/j.scico.2024.103086)
