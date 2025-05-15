@@ -69,9 +69,6 @@ author:
     - label: "Riyo's GitHub (@ymdryo)"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/ymdryo"
-    - label: "Riyo's X (@ymdfield)"
-      icon: "fab fa-fw fa-twitter-square"
-      url: "https://x.com/ymdfield"
 
 footer:
   links:
@@ -81,9 +78,6 @@ footer:
     - label: "Riyo's GitHub (@ymdryo)"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/ymdryo"
-    - label: "Riyo's X (@ymdfield)"
-      icon: "fab fa-fw fa-twitter-square"
-      url: "https://x.com/ymdfield"
 
 defaults:
   # _posts

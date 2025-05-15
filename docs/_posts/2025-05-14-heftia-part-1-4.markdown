@@ -2,6 +2,7 @@
 title:  "Heftia: The Final Word in Haskell Effect System Libraries - Part 1.4"
 author: riyo
 date:   2025-05-14 18:00:00 +0900
+last_modified_at: 2025-05-15 12:10:00 +0900
 categories:
   - heftia
 tags:
@@ -17,9 +18,17 @@ excerpt: |
 
 # Future Challenges for `heftia`
 
+## Enhancing the Documentation
+
+At present, documentation for functions and types in Haddock is lacking, so I plan to fill in those gaps.
+In addition, I intend to provide usage explanations in Part 2 or beyond of this series.
+
+I have not yet decided what exactly to include in the later parts.
+If there is anything you would like to see explained, whether about usage or anything else, please feel free to send in a request!
+
 ## Performance Improvements
 
-First, we need to investigate precisely when the performance of higher-order effects, such as `Local`, becomes noticeably slow in realistic use cases. This means we need benchmarks involving more practical programs using various effects. Concrete performance improvements should ideally follow this investigation.
+We need to investigate precisely when the performance of higher-order effects, such as `Local`, becomes noticeably slow in realistic use cases. This means we need benchmarks involving more practical programs using various effects. Concrete performance improvements should ideally follow this investigation.
 
 ## Real-World Use of `heftia`
 
