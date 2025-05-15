@@ -2,6 +2,7 @@
 title:  "Heftia: The Final Word in Haskell Effect System Libraries - Part 1.2"
 author: riyo
 date:   2025-05-14 18:00:00 +0900
+last_modified_at: 2025-05-15 21:21:00 +0900
 categories:
   - heftia
 tags:
@@ -24,6 +25,8 @@ You can find all performance measurements for version 0.7 [here](https://github.
 Below is a benchmark result of a typical real-world use case involving various effects and IO operations for aggregating file sizes. This benchmark was adapted from one originally used by `effectful`.
 
 <img src="{{ '/assets/images/heftia-part-1/filesize-deep.svg' | relative_url }}" alt="filesize-deep.svg">
+
+Smaller values indicate faster and better performance.
 
 As you can see, `heftia` significantly outperforms libraries such as `mtl`, `polysemy`, and `fused-effects`.
 Compared to `effectful`, currently the fastest among practical libraries, `heftia` is only slightly slower.
