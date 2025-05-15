@@ -2,7 +2,7 @@
 title:  "Heftia: The Final Word in Haskell Effect System Libraries - Part 1.4"
 author: riyo
 date:   2025-05-14 18:00:00 +0900
-last_modified_at: 2025-05-15 12:10:00 +0900
+last_modified_at: 2025-05-15 17:09:00 +0900
 categories:
   - heftia
 tags:
@@ -55,7 +55,7 @@ We already know that it is feasible; the remaining task is to adjust the interfa
 
 Additionally, interoperability with other effect libraries is essential.
 
-`heftia` already has basic interoperability established with existing Haskell ecosystem standards such as `mtl` and `unliftio`. `heftia`'s `Eff` monad provides instances for `MonadState`, `MonadRWS`, `MonadError`, and `MonadUnliftIO`. It's also possible to use the `Eff` monad similarly to monad transformers, allowing `heftia` to layer on top of existing monads.
+`heftia` already has basic interoperability established with existing Haskell ecosystem standards such as `mtl` and `unliftio`. `heftia`'s `Eff` monad provides instances for `MonadState`, `MonadRWS`, `MonadError`, `MonadUnliftIO`, and others. It's also possible to use the `Eff` monad similarly to monad transformers, allowing `heftia` to layer on top of existing monads.
 
 Currently, I am particularly interested in collaboration with `effectful` and `polysemy`.
 This cannot be accomplished by me alone; collaboration from the community is necessary.
