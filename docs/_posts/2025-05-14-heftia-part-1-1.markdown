@@ -42,7 +42,8 @@ In this series, I will explain `heftia`. This is the first part.
 
 # Overview
 
-`heftia` is a new effect system library for Haskell that I am currently developing. It uniquely provides practical, fully realized implementations of algebraic and higher-order effects with practical performance suitable for real-world use, unmatched by any other existing effect system or language.
+`heftia` is a new effect system library for Haskell that I am currently developing.
+It uniquely provides practical, fully realized implementations of algebraic and higher-order effects with performance suitable for real-world use, unmatched by any other existing effect system or language.
 
 As of the current version 0.7, `heftia` is already suitable for practical use.
 
