@@ -25,6 +25,7 @@ In addition, I intend to provide usage explanations in Part 2 or beyond of this 
 
 I have not yet decided what exactly to include in the later parts.
 If there is anything you would like to see explained, whether about usage or anything else, please feel free to send in a request!
+Having requests helps me understand what everyone is expecting, which is greatly appreciated.
 
 ## Performance Improvements
 
