@@ -110,15 +110,11 @@ tag_archive:
   path: /tags/
 
 comments:
-  provider: "giscus"
-  giscus:
-    repo_id: "R_kgDOOpG7-Q"
-    category_name: "Comments"
-    category_id: "DIC_kwDOOpG7-c4CqFff"
-    discussion_term: "pathname"
-    reactions_enabled: "1"
-    theme: "preferred_color_scheme"
-    input_position: "top"
+  provider: "utterances"
+  utterances:
+    theme: "github-light"
+    issue_term: "pathname"
+    label: "comment"
 
 repository: sayo-hs/blog
 
