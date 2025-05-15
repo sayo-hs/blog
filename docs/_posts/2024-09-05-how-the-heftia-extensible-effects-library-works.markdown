@@ -13,7 +13,7 @@ This article is intended for the Haskell Extensible Effects (EE) community, focu
 
 [https://github.com/sayo-hs/heftia](https://github.com/sayo-hs/heftia)
 
-**WARNING:** This article is outdated. For the most up-to-date information, please refer to [Heftia: The Final Word in Haskell Effect System Libraries]({% post_url 2025-05-14-heftia-part-1-1 %}).
+**WARNING:** This article is outdated. For the most up-to-date information, please refer to [Heftia: The Next Generation of Haskell Effects Management]({% post_url 2025-05-14-heftia-part-1-1 %}).
 {: .notice--warning}
 
 # Background

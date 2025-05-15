@@ -1,8 +1,8 @@
 ---
-title:  "Heftia: The Final Word in Haskell Effect System Libraries - Part 1.2"
+title:  "Heftia: The Next Generation of Haskell Effects Management - Part 1.2"
 author: riyo
 date:   2025-05-14 18:00:00 +0900
-last_modified_at: 2025-05-15 21:21:00 +0900
+last_modified_at: 2025-05-16 04:59:48 +0900
 categories:
   - heftia
 tags:
