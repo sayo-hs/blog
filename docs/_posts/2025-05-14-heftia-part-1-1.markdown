@@ -41,7 +41,7 @@ In this series, I will explain `heftia`. This is the first part.
 
   Fragmentation of the Haskell ecosystem and significant migration costs due to the proliferation of incompatible effect libraries
 
-**I confidently believe that this library is the final word in Haskell effect system libraries, and I recommend using it.**
+**I confidently believe that this library is the final word in Haskell effect system libraries, and I can recommend using it.**
 
 # Overview
 
