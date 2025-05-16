@@ -69,18 +69,13 @@ Consider the billion-dollar mistake of `null` and Java’s current situation wit
 
 The history of Haskell’s effect libraries has followed a similar pattern.
 
-However, "the Haskell way" offers a superior approach. By consistently translating mathematical concepts into Haskell code using algebraic data types, encoding categorical constructs through types, equational reasoning, and parametricity, we can guarantee from the outset the absence of various classes of bugs.
+However, "the Haskell way" offers a superior approach. By consistently translating mathematical concepts into Haskell code using algebraic data types, encoding categorical constructs through types, equational reasoning, and parametricity, we can guarantee from the outset the absence of various classes of bugs [^4].
 
 I firmly believe maintaining this method is critical for the future of Haskell's effect system. Establishing theoretically sound interfaces helps prevent repeated costly migrations. `heftia` is intended as practical proof of this methodology.
 
-~~`IO` monad-based libraries like `effectful`, `cleff`, and `bluefin` continually discover and patch issues, as seen in GitHub issues.[^4]~~
+[^4]: Libraries based on the "Weaving" approach, such as `polysemy` and `fused-effects`, have experienced issues, now understood to result from inherent limitations in the approach's ad-hoc, non-theoretical structure.
 
-This expression contained some elements of exaggeration. I intend to revise it at a later time.
-{: .notice--primary }
-
-[^4]: Libraries based on the "Weaving" approach, such as `polysemy` and `fused-effects`, have also experienced similar issues, now understood to result from inherent limitations in the approach's ad-hoc, non-theoretical structure.
-
-On the other hand, `heftia` directly implements categorical foundations described in academic papers. What I did was simply translate the types written in Agda from the papers into Haskell, confirm various isomorphisms through equational reasoning. As soon as the functions were given types, all expected semantics were satisfied from the start. I was genuinely impressed by how smoothly everything worked during the development of `heftia`, which confirmed the strength of this methodology firsthand.
+`heftia` directly implements categorical foundations described in academic papers. What I did was simply translate the types written in Agda from the papers into Haskell, confirm various isomorphisms through equational reasoning. As soon as the functions were given types, all expected semantics were satisfied from the start. I was genuinely impressed by how smoothly everything worked during the development of `heftia`, which confirmed the strength of this methodology firsthand.
 
 ## The Ecosystem Dead-End
 
