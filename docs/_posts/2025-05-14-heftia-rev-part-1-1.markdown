@@ -31,7 +31,7 @@ In this series, I will explain `heftia`. This is the first part.
 
 * **Semantic Soundness**
 
-  Unsound semantics that occur when combining higher-order effects with algebraic effects (delimited continuations) in effect libraries predating `effectful`, such as `polysemy`, `fused-effects`, and `freer-simple`
+  Unsound semantics that occur when combining higher-order effects with algebraic effects (delimited continuations) in effect libraries
 
 * **Interoperability**
 
