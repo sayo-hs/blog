@@ -73,9 +73,11 @@ Consider the billion-dollar mistake of `null` and Java’s current situation wit
 
 The history of Haskell’s effect libraries has followed a similar pattern.
 
-However, "the Haskell way" offers a superior approach. By consistently translating mathematical concepts into Haskell code using algebraic data types, encoding categorical constructs through types, equational reasoning, and parametricity, we can guarantee from the outset the absence of various classes of bugs [^4].
+However, "the Haskell way" offers a superior approach. By consistently translating mathematical concepts into Haskell code using algebraic data types, encoding categorical constructs through types, equational reasoning, and parametricity, we can guarantee from the outset the absence of various classes of bugs.
 
 I firmly believe maintaining this method is critical for the future of Haskell's effect system. Establishing theoretically sound interfaces helps prevent repeated costly migrations. `heftia` is intended as practical proof of this methodology.
+
+`IO` monad-based libraries like `effectful`, `cleff`, and `bluefin` continually discover and patch issues, as seen in GitHub issues.[^4]
 
 [^4]: Libraries based on the "Weaving" approach, such as `polysemy` and `fused-effects`, have experienced issues, now understood to result from inherent limitations in the approach's ad-hoc, non-theoretical structure.
 
