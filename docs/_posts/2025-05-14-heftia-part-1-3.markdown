@@ -11,6 +11,10 @@ excerpt: |
     From here, I will describe the issues associated with the current general `IO` monad approach and the broader Haskell effect ecosystem.
 ---
 
+This article included many value judgments based on my design philosophy, which sparked discussion. [Here]({% post_url 2025-05-14-heftia-rev-part-1-2 %}) is a version with such value-laden statements removed as much as possible.
+I will keep this version as well for future reference.
+{: .notice--primary }
+
 [**Part 1.1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-part-1-1 %})<br>
 [**Part 1.2**: The performance of `heftia`]({% post_url 2025-05-14-heftia-part-1-2  %})<br>
 [**Part 1.3**: Issues with the increasingly popular `IO` monad approach]({% post_url 2025-05-14-heftia-part-1-3  %})<br>
@@ -72,9 +76,6 @@ The history of Haskell’s effect libraries has followed a similar pattern.
 However, "the Haskell way" offers a superior approach. By consistently translating mathematical concepts into Haskell code using algebraic data types, encoding categorical constructs through types, equational reasoning, and parametricity, we can guarantee from the outset the absence of various classes of bugs [^4].
 
 I firmly believe maintaining this method is critical for the future of Haskell's effect system. Establishing theoretically sound interfaces helps prevent repeated costly migrations. `heftia` is intended as practical proof of this methodology.
-
-This part is a bit complicated, so I intend to revise it at a later time.
-{: .notice--primary }
 
 [^4]: Libraries based on the "Weaving" approach, such as `polysemy` and `fused-effects`, have experienced issues, now understood to result from inherent limitations in the approach's ad-hoc, non-theoretical structure.
 

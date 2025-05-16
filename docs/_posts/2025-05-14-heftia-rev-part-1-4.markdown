@@ -1,5 +1,5 @@
 ---
-title:  "Heftia: The Next Generation of Haskell Effects Management - Part 1.4"
+title:  "Heftia: The Next Generation of Haskell Effects Management - Part 1.3 - Take 2"
 author: riyo
 date:   2025-05-14 18:00:00 +0900
 last_modified_at: 2025-05-16 04:59:48 +0900
@@ -11,14 +11,9 @@ excerpt: |
     First, we need to investigate precisely when the performance of higher-order effects, such as `Local`, becomes noticeably slow in realistic use cases. This means we need benchmarks involving more practical programs using various effects. Concrete performance improvements should ideally follow this investigation.
 ---
 
-This article included many value judgments based on my design philosophy, which sparked discussion. [Here]({% post_url 2025-05-14-heftia-rev-part-1-4 %}) is a version with such value-laden statements removed as much as possible.
-I will keep this version as well for future reference.
-{: .notice--primary }
-
-[**Part 1.1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-part-1-1 %})<br>
-[**Part 1.2**: The performance of `heftia`]({% post_url 2025-05-14-heftia-part-1-2  %})<br>
-[**Part 1.3**: Issues with the increasingly popular `IO` monad approach]({% post_url 2025-05-14-heftia-part-1-3  %})<br>
-[**Part 1.4**: Future prospects of `heftia`]({% post_url 2025-05-14-heftia-part-1-4  %})
+[**Part 1.1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-1 %})<br>
+[**Part 1.2**: The performance and type safety of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-2  %})<br>
+[**Part 1.3**: Future prospects of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-4  %})
 
 # Future Challenges for `heftia`
 
@@ -71,7 +66,7 @@ If anyone is willing to assist, please reach out to me. Thank you.
 
 # Preventing Ecosystem Fragmentation
 
-Earlier, I listed several disadvantages of the `IO` monad approach, but these simply reflect `heftia`'s design philosophy, and I certainly do not think `IO` monad-based libraries shouldn't exist. On the contrary, when performance is critical, there is no reason to exclude any available approach. Ideally, multiple approaches should coexist, allowing users to choose freely. **The real problem lies in ecosystem fragmentation.** The core issue is the lock-in within each approach, causing a lack of interoperability.
+Ideally, multiple approaches should coexist, allowing users to choose freely. **The real problem lies in ecosystem fragmentation.** The core issue is the lock-in within each approach, causing a lack of interoperability.
 
 Finally, I have a request for those interested in implementing effects in Haskell:
 Please consider building an ecosystem robust to future theoretical developments, encouraging mutual interoperability, such as the [`data-effects`](https://github.com/sayo-hs/data-effects) approach advocated by `heftia`.
@@ -91,8 +86,6 @@ Please consider building an ecosystem robust to future theoretical developments,
 
 I’m grateful to all the Haskell library authors whose ongoing work has paved the way for `heftia`.
 Without their contributions, this project would not exist.
-
-Let us work together to build the future of the Haskell effect system ecosystem.
 
 ---
 
