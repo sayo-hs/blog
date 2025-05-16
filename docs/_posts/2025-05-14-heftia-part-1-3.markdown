@@ -73,7 +73,10 @@ However, "the Haskell way" offers a superior approach. By consistently translati
 
 I firmly believe maintaining this method is critical for the future of Haskell's effect system. Establishing theoretically sound interfaces helps prevent repeated costly migrations. `heftia` is intended as practical proof of this methodology.
 
-`IO` monad-based libraries like `effectful`, `cleff`, and `bluefin` continually discover and patch issues, as seen in GitHub issues.[^4]
+~~`IO` monad-based libraries like `effectful`, `cleff`, and `bluefin` continually discover and patch issues, as seen in GitHub issues.[^4]~~
+
+This expression contained some elements of exaggeration. I intend to revise it at a later time.
+{: .notice--primary }
 
 [^4]: Libraries based on the "Weaving" approach, such as `polysemy` and `fused-effects`, have also experienced similar issues, now understood to result from inherent limitations in the approach's ad-hoc, non-theoretical structure.
 
