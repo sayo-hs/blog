@@ -2,7 +2,7 @@
 title:  "Heftia: The Next Generation of Haskell Effects Management - Part 1.1"
 author: riyo
 date:   2025-05-14 18:00:00 +0900
-last_modified_at: 2025-05-16 04:59:48 +0900
+last_modified_at: 2025-05-17 14:36:00 +0900
 categories:
   - heftia
 tags:
@@ -45,14 +45,10 @@ In this series, I will explain `heftia`. This is the first part.
 
   Fragmentation of the Haskell ecosystem and significant migration costs due to the proliferation of incompatible effect libraries
 
-**I confidently believe that this library is the final word in Haskell effect system libraries, and I can recommend using it.**
-
 # Overview
 
 `heftia` is a new effect system library for Haskell that I am currently developing.
 It uniquely provides practical, fully realized implementations of algebraic and higher-order effects with performance suitable for real-world use, unmatched by any other existing effect system or language.
-
-As of the current version 0.7, `heftia` is already suitable for practical use.
 
 * **Higher-order effects** are effects that take monadic actions as arguments.
     In terms of monad transformers, examples include `local` in `ReaderT` and `catch` in `ExceptT`.
