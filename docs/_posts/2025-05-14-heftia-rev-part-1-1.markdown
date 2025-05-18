@@ -30,17 +30,17 @@ In this series, I will explain `heftia`. This is the first part.
 
 * **Compatibility Problems with the `UnliftIO`**
 
-  inability to support algebraic effects (delimited continuations) due to reliance on `MonadUnliftIO`
+  Inability to support algebraic effects (delimited continuations) due to tight reliance on `MonadUnliftIO`
 
 * **Semantic Soundness**
 
-  Unsound semantics that occur when combining higher-order effects with algebraic effects (delimited continuations) in effect libraries
+  Unsound semantics that occur when combining higher-order effects with algebraic effects (delimited continuations) in existing effect libraries
 
 * **Interoperability**
 
   Fragmentation of the Haskell ecosystem and significant migration costs due to the proliferation of incompatible effect libraries
 
-  Due to incompatibility among these libraries, migrating between them has incurred significant costs. Today, the community seeks a definitive solution that ends the cycle of migration hell.
+  Due to incompatibility among these libraries, migrating between them has incurred significant costs. Today, the community seeks a solution that ends the cycle of migration hell.
 
 # Overview
 
