@@ -9,6 +9,8 @@ tags:
   - heftia
   - archive
   - outdated
+excerpt: |
+    This article is intended for the Haskell Extensible Effects (EE) community, focusing on "higher-order effects" and "delimited continuations." It explains the workings of the EE library "Heftia" that I implemented.
 ---
 
 **WARNING:** This article is outdated. For the most up-to-date information, please refer to [Heftia: The Next Generation of Haskell Effects Management]({% post_url 2025-05-14-heftia-part-1-1 %}).

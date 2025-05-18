@@ -7,9 +7,7 @@ categories:
 tags:
   - heftia
 excerpt: |
-    Let's start with performance.
     You can find all performance measurements for version 0.7 [here](https://github.com/sayo-hs/heftia/blob/v0.7.0.0/benchmark/performance.md).
-    Below is a benchmark result of a typical real-world use case involving various effects and IO operations for aggregating file sizes. This benchmark was adapted from one originally used by `effectful`.
 ---
 
 This article is currently unfinished and will continue to be updated.

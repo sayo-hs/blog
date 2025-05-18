@@ -7,7 +7,8 @@ categories:
 tags:
   - heftia
 excerpt: |
-    First, we need to investigate precisely when the performance of higher-order effects, such as `Local`, becomes noticeably slow in realistic use cases. This means we need benchmarks involving more practical programs using various effects. Concrete performance improvements should ideally follow this investigation.
+    At present, documentation for functions and types in Haddock is lacking, so I plan to fill in those gaps.
+    In addition, I intend to provide usage explanations in Part 2 or beyond of this series.
 ---
 
 This article is currently unfinished and will continue to be updated.
