@@ -1,21 +1,24 @@
 ---
-title:  "Heftia: The Next Generation of Haskell Effects Management - Part 1.2"
+title:  "[ARCHIVE] Heftia: The Next Generation of Haskell Effects Management - Part 1.2"
 author: riyo
 date:   2025-05-14 18:00:00 +0900
-last_modified_at: 2025-05-16 04:59:48 +0900
+last_modified_at: 2025-05-18 19:00:53 +0900
 categories:
   - heftia
 tags:
   - heftia
+  - archive
 excerpt: |
     Let's start with performance.
     You can find all performance measurements for version 0.7 [here](https://github.com/sayo-hs/heftia/blob/v0.7.0.0/benchmark/performance.md).
     Below is a benchmark result of a typical real-world use case involving various effects and IO operations for aggregating file sizes. This benchmark was adapted from one originally used by `effectful`.
 ---
 
-This article included many value judgments based on my design philosophy, which sparked discussion. [Here]({% post_url 2025-05-14-heftia-rev-part-1-2 %}) is a version with such value-laden statements removed as much as possible.
-I will keep this version as well for future reference.
-{: .notice--primary }
+The initial version of this article lacked sufficient justification in the comparison between effect systems and contained ambiguous expressions.
+I apologize for the inadequate explanations.
+This page will be kept as an archive.
+The revised version of the article is currently in progress and can be found here: [{% post_url 2025-05-14-heftia-rev-part-1-2 %}]({% post_url 2025-05-14-heftia-rev-part-1-2 %})
+{: .notice--warning}
 
 [**Part 1.1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-part-1-1 %})<br>
 [**Part 1.2**: The performance of `heftia`]({% post_url 2025-05-14-heftia-part-1-2  %})<br>

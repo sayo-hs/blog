@@ -1,19 +1,22 @@
 ---
-title:  "Heftia: The Next Generation of Haskell Effects Management - Part 1.4"
+title:  "[ARCHIVE] Heftia: The Next Generation of Haskell Effects Management - Part 1.4"
 author: riyo
 date:   2025-05-14 18:00:00 +0900
-last_modified_at: 2025-05-16 04:59:48 +0900
+last_modified_at: 2025-05-18 19:00:53 +0900
 categories:
   - heftia
 tags:
   - heftia
+  - archive
 excerpt: |
     First, we need to investigate precisely when the performance of higher-order effects, such as `Local`, becomes noticeably slow in realistic use cases. This means we need benchmarks involving more practical programs using various effects. Concrete performance improvements should ideally follow this investigation.
 ---
 
-This article included many value judgments based on my design philosophy, which sparked discussion. [Here]({% post_url 2025-05-14-heftia-rev-part-1-4 %}) is a version with such value-laden statements removed as much as possible.
-I will keep this version as well for future reference.
-{: .notice--primary }
+The initial version of this article lacked sufficient justification in the comparison between effect systems and contained ambiguous expressions.
+I apologize for the inadequate explanations.
+This page will be kept as an archive.
+The revised version of the article is currently in progress and can be found here: [{% post_url 2025-05-14-heftia-rev-part-1-4 %}]({% post_url 2025-05-14-heftia-rev-part-1-4 %})
+{: .notice--warning}
 
 [**Part 1.1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-part-1-1 %})<br>
 [**Part 1.2**: The performance of `heftia`]({% post_url 2025-05-14-heftia-part-1-2  %})<br>

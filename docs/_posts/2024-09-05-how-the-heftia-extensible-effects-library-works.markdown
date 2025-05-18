@@ -1,27 +1,29 @@
 ---
-title:  "[OUTDATED] Higher-Order Effects Done Right: How the Heftia Extensible Effects Library Works"
+title:  "[ARCHIVE] Higher-Order Effects Done Right: How the Heftia Extensible Effects Library Works"
 author: riyo
 date:   2024-09-05 03:33:30 +0900
+last_modified_at: 2025-05-18 18:49:40 +0900
 categories:
   - heftia
 tags:
   - heftia
+  - archive
   - outdated
 ---
-
-This article is intended for the Haskell Extensible Effects (EE) community, focusing on "higher-order effects" and "delimited continuations." It explains the workings of the EE library "Heftia" that I implemented. I hope this article reaches the EE community and generates some buzz.
-
-[https://github.com/sayo-hs/heftia](https://github.com/sayo-hs/heftia)
 
 **WARNING:** This article is outdated. For the most up-to-date information, please refer to [Heftia: The Next Generation of Haskell Effects Management]({% post_url 2025-05-14-heftia-part-1-1 %}).
 {: .notice--warning}
 
+This article is intended for the Haskell Extensible Effects (EE) community, focusing on "higher-order effects" and "delimited continuations." It explains the workings of the EE library "Heftia" that I implemented.
+
+[https://github.com/sayo-hs/heftia](https://github.com/sayo-hs/heftia)
+
 # Background
 As is widely known, the handling of higher-order effects in existing EE libraries is not perfect.
 
-First, as its name suggests, [fused-effects](https://hackage.haskell.org/package/fused-effects) fuses effects. Strictly speaking, it’s not clear whether it qualifies as an EE (and it's definitely not Freer Effects since it’s not based on Freer monads). Probably, it doesn't. Fusing the effects means it offers a fundamental performance advantage, but at the cost of making dynamic effect transformations (such as `interpose`) difficult. Moreover, writing and reading interpreters is tedious (you end up surrounded by `<$ ctx`, and handling `thread` feels extremely difficult).
+First, as its name suggests, [fused-effects](https://hackage.haskell.org/package/fused-effects) fuses effects. Strictly speaking, it’s not clear whether it qualifies as an EE (and it's definitely not Freer Effects since it’s not based on Freer monads). Probably, it doesn't. Fusing the effects means it offers a fundamental performance advantage, but at the cost of making dynamic effect transformations (such as `interpose`) difficult. Moreover, writing and reading interpreters is difficult (you end up surrounded by `<$ ctx`, and handling `thread` feels difficult).
 
-[polysemy](https://hackage.haskell.org/package/polysemy) almost gets it right. It’s very convenient for handling first-order effects, but higher-order effects remain challenging. Constructs like `Strategy` and `Final` can be mind-boggling, and it can't correctly handle non-deterministic computations or coroutines such as `NonDet`[^1]. This ultimately stems from the inability to manipulate delimited continuations.
+[polysemy](https://hackage.haskell.org/package/polysemy) almost gets it right. It’s very convenient for handling first-order effects, but higher-order effects remain challenging. Constructs like `Strategy` and `Final` can be difficult, and it can't correctly handle non-deterministic computations or coroutines such as `NonDet`[^1]. This ultimately stems from the inability to manipulate delimited continuations.
 
 [^1]: [https://github.com/polysemy-research/polysemy/issues/246](https://github.com/polysemy-research/polysemy/issues/246)
 
