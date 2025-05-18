@@ -61,6 +61,20 @@ It uniquely provides fully realized implementations of algebraic and higher-orde
 
     Roughly speaking, they overcome the limitations of monad transformers, offering a more convenient, safer, and more predictable alternative.
 
+{% capture alert_content %}
+**Definition of Algebraic Effects**
+
+Algebraic effects are sometimes treated as nothing more than a buzzword these days.
+In this series, I consistently use the term “algebraic effects” in the sense of the operational semantics and typing rules as defined in the literature by Gordon D. Plotkin and Matija Pretnar:
+
+* [Gordon D. Plotkin and Matija Pretnar, "Handling Algebraic Effects"](https://www.researchgate.net/publication/259151378_Handling_Algebraic_Effects)
+* [Matija Pretnar, "An Introduction to Algebraic Effects and Handlers."](https://www.sciencedirect.com/science/article/pii/S1571066115000705)
+
+Furthermore, when I say "implementing algebraic effects (in Haskell)," I mean making the operational semantics and typing rules of algebraic effects fully embeddable in Haskell by using various language features so as to emulate them exactly.
+{% endcapture %}
+
+<div class="notice--info"> {{ alert_content | markdownify }} </div>
+
 [Here](https://github.com/sayo-hs/heftia?tab=readme-ov-file#comparison) is a comparison table of `heftia` and other effect system implementations in terms of their features:
 
 
