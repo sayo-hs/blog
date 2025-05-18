@@ -15,12 +15,12 @@ This article is currently unfinished and will continue to be updated.
 The archive of the pre-revision version is available at: [{% post_url 2025-05-14-heftia-part-1-1 %}]({% post_url 2025-05-14-heftia-part-1-1 %})
 {: .notice--warning}
 
-[**Part 1.1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-1 %})<br>
-[**Part 1.2**: The performance and type safety of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-2  %})<br>
-[**Part 1.3**: Future prospects of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-4  %})
+[**Part 1.1: Summary of Part 1 and an overview of `heftia`**]({% post_url 2025-05-14-heftia-rev-part-1-1 %})<br>
+[Part 1.2: The performance of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-2  %})<br>
+[Part 1.3: Discussion on Type Safety in Haskell's Effect Systems]({% post_url 2025-05-14-heftia-rev-part-1-3  %})<br>
+[Part 1.4: Future prospects of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-4  %})
 
 In this series, I will explain `heftia`. This is the first part.
-
 # Summary
 
 `heftia` is the first-ever effect system, not just among Haskell libraries but historically across all effect system implementations and languages, to completely implement both *algebraic effects* and *higher-order effects*.
@@ -134,8 +134,8 @@ runSpan = interpret \(Span name m) -> do
     liftIO $ putStrLn $ "[End span '" <> name <> "']"
     pure r
 
-prog :: IO ()
-prog = runEff . runLog . runSpan $ do
+main :: IO ()
+main = runEff . runLog . runSpan $ do
     span "example program" do
         log "foo"
 
@@ -144,8 +144,10 @@ prog = runEff . runLog . runSpan $ do
             log "world"
 
         log "bar"
+```
 
-> prog
+```
+> main
 [Start span 'example program']
 [LOG] foo
 [Start span 'greeting']

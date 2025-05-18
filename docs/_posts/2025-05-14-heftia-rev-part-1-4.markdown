@@ -1,5 +1,5 @@
 ---
-title:  "Heftia: The Next Generation of Haskell Effects Management - Part 1.3"
+title:  "Heftia: The Next Generation of Haskell Effects Management - Part 1.4"
 author: riyo
 date:   2025-05-16 10:00:00 +0900
 categories:
@@ -13,12 +13,13 @@ excerpt: |
 ---
 
 This article is currently unfinished and will continue to be updated.
-The archive of the pre-revision version is available at: [{% post_url 2025-05-14-heftia-part-1-1 %}]({% post_url 2025-05-14-heftia-part-1-1 %})
+The archive of the pre-revision version is available at: [{% post_url 2025-05-14-heftia-part-1-4 %}]({% post_url 2025-05-14-heftia-part-1-4 %})
 {: .notice--warning}
 
-[**Part 1.1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-1 %})<br>
-[**Part 1.2**: The performance and type safety of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-2  %})<br>
-[**Part 1.3**: Future prospects of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-4  %})
+[Part 1.1: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-1 %})<br>
+[Part 1.2: The performance of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-2  %})<br>
+[Part 1.3: Discussion on Type Safety in Haskell's Effect Systems]({% post_url 2025-05-14-heftia-rev-part-1-3  %})<br>
+[**Part 1.4: Future prospects of `heftia`**]({% post_url 2025-05-14-heftia-rev-part-1-4  %})
 
 # Future Challenges for `heftia`
 
