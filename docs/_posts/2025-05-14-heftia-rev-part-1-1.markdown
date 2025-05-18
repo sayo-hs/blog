@@ -6,6 +6,7 @@ categories:
   - heftia
 tags:
   - heftia
+  - live
 excerpt: |
     `heftia` is the first-ever effect system, not just among Haskell libraries but historically across all effect system implementations and languages, to completely implement both *algebraic effects* and *higher-order effects*.
 ---

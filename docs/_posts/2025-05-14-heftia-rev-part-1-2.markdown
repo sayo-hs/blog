@@ -6,6 +6,7 @@ categories:
   - heftia
 tags:
   - heftia
+  - live
 excerpt: |
     You can find all performance measurements for version 0.7 [here](https://github.com/sayo-hs/heftia/blob/v0.7.0.0/benchmark/performance.md).
 ---

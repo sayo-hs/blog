@@ -6,6 +6,7 @@ categories:
   - heftia
 tags:
   - heftia
+  - live
 excerpt: |
     At present, documentation for functions and types in Haddock is lacking, so I plan to fill in those gaps.
     In addition, I intend to provide usage explanations in Part 2 or beyond of this series.
