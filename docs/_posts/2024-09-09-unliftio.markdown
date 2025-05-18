@@ -13,7 +13,7 @@ excerpt: |
     First, there is a higher-order effect for `UnliftIO` that can be used: [Data.Effect.Unlift.UnliftIO](https://hackage.haskell.org/package/data-effects-0.1.2.0/docs/Data-Effect-Unlift.html#t:UnliftIO). When the UnliftIO higher-order effect is in the effect list, users can use `withRunInIO`.
 ---
 
-**WARNING:** This article is outdated. For the most up-to-date information, please refer to [Heftia: The Next Generation of Haskell Effects Management]({% post_url 2025-05-14-heftia-part-1-1 %}).
+**WARNING:** This article is outdated. For the most up-to-date information, please refer to [Heftia: The Next Generation of Haskell Effects Management]({% post_url 2025-05-14-heftia-rev-part-1-1 %}).
 {: .notice--warning}
 
 First, there is a higher-order effect for `UnliftIO` that can be used: [Data.Effect.Unlift.UnliftIO](https://hackage.haskell.org/package/data-effects-0.1.2.0/docs/Data-Effect-Unlift.html#t:UnliftIO). When the UnliftIO higher-order effect is in the effect list, users can use `withRunInIO`.

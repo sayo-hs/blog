@@ -13,6 +13,7 @@ excerpt: |
 ---
 
 This article is currently unfinished and will continue to be updated.
+The archive of the pre-revision version is available at: [{% post_url 2025-05-14-heftia-part-1-1 %}]({% post_url 2025-05-14-heftia-part-1-1 %})
 {: .notice--warning}
 
 [**Part 1.1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-1 %})<br>
@@ -89,7 +90,7 @@ Please consider building an ecosystem robust to future theoretical developments,
 **Let us stop repeating the cycle of migration hell.**
 
 I’m grateful to all the Haskell library authors whose ongoing work has paved the way for `heftia`.
-Without their contributions, this project would not exist.
+Without their contributions, this achievement would not exist.
 
 ---
 

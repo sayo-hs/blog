@@ -12,6 +12,7 @@ excerpt: |
 ---
 
 This article is currently unfinished and will continue to be updated.
+The archive of the pre-revision version is available at: [{% post_url 2025-05-14-heftia-part-1-1 %}]({% post_url 2025-05-14-heftia-part-1-1 %})
 {: .notice--warning}
 
 [**Part 1.1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-1 %})<br>
@@ -30,11 +31,11 @@ In this series, I will explain `heftia`. This is the first part.
 
 * **Compatibility Problems with the `UnliftIO`**
 
-  Inability to support algebraic effects (delimited continuations) due to tight reliance on `MonadUnliftIO`
+  Inability to support algebraic effects (delimited continuations) due to tight reliance on `MonadUnliftIO`[^3]
 
 * **Semantic Soundness**
 
-  Unsound semantics that occur when combining higher-order effects with algebraic effects (delimited continuations) in existing effect libraries
+  Controversial behaviors that occur when combining higher-order effects with algebraic effects (delimited continuations) in existing effect libraries[^2]
 
 * **Interoperability**
 
@@ -71,6 +72,10 @@ In this series, I consistently use the term “algebraic effects” in the sense
 * [Matija Pretnar, "An Introduction to Algebraic Effects and Handlers."](https://www.sciencedirect.com/science/article/pii/S1571066115000705)
 
 Furthermore, when I say "implementing algebraic effects (in Haskell)," I mean making the operational semantics and typing rules of algebraic effects fully embeddable in Haskell by using various language features so as to emulate them exactly.
+
+Libraries that implement algebraic effects in Haskell include `freer-simple` and `heftia`.
+On the other hand, libraries such as `polysemy`, `effectful`, and `fused-effects` can currently be said to implement a subset of algebraic effects, in the sense that they lack support for **delimited continuations**.
+As for `mtl`, its correspondence with algebraic effects is not clear.
 {% endcapture %}
 
 <div class="notice--info"> {{ alert_content | markdownify }} </div>
@@ -78,7 +83,7 @@ Furthermore, when I say "implementing algebraic effects (in Haskell)," I mean ma
 [Here](https://github.com/sayo-hs/heftia?tab=readme-ov-file#comparison) is a comparison table of `heftia` and other effect system implementations in terms of their features:
 
 
-| Library or Language | Higher-Order Effects | Algebraic Effects (Delimited Conts) |
+| Library or Language | Higher-Order Effects | Delimited Conts in Algebraic Effects |
 | ------------------- | -------------------- | ---------------------- |
 | `heftia`            | ✅                   | ✅                     |
 | `mtl`               | ⚠️                   | ⚠️                     |
@@ -100,6 +105,8 @@ Furthermore, when I say "implementing algebraic effects (in Haskell)," I mean ma
 {: .notice--info}
 
 Recent advancements in research on algebraic effects have continued vigorously.
+
+**Leveraging recent theoretical foundations[^1], `heftia` simultaneously provides capabilities for algebraic effects and higher-order effects, while ensuring ultimate type safety.**
 
 ## Code Example
 
@@ -158,5 +165,10 @@ When using `put`/`get` of `State`, there's no need to explicitly specify types l
 
 [To be continued in Part 1.2...]({% post_url 2025-05-14-heftia-rev-part-1-2 %})
 
-[^10]: [Hefty Algebras: Modular Elaboration of Higher-Order Algebraic Effects. Casper Bach Poulsen & Cas van der Rest, POPL 2023.](https://dl.acm.org/doi/10.1145/3571255)<br>
+[^1]: [Hefty Algebras: Modular Elaboration of Higher-Order Algebraic Effects. Casper Bach Poulsen & Cas van der Rest, POPL 2023.](https://dl.acm.org/doi/10.1145/3571255)<br>
     [A Framework for Higher-Order Effects & Handlers. Birthe van den Berg & Tom Schrijvers, Sci. Comput. Program. 2024.](https://doi.org/10.1016/j.scico.2024.103086)
+
+[^2]: [The effect semantics zoo](https://github.com/lexi-lambda/eff/blob/master/notes/semantics-zoo.md)<br>
+    [Incorrect semantics for higher-order effects](https://github.com/hasura/eff/issues/12)
+
+[^3]: [The issues with effect systems](https://discourse.haskell.org/t/the-issues-with-effect-systems/5630/19)
