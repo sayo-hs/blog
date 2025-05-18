@@ -10,6 +10,9 @@ excerpt: |
     First, we need to investigate precisely when the performance of higher-order effects, such as `Local`, becomes noticeably slow in realistic use cases. This means we need benchmarks involving more practical programs using various effects. Concrete performance improvements should ideally follow this investigation.
 ---
 
+This article is currently unfinished and will continue to be updated.
+{: .notice--warning}
+
 [**Part 1.1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-1 %})<br>
 [**Part 1.2**: The performance and type safety of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-2  %})<br>
 [**Part 1.3**: Future prospects of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-4  %})
