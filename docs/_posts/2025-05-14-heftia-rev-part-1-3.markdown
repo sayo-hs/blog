@@ -20,7 +20,7 @@ The archive of the pre-revision version is available at: [{% post_url 2025-05-14
 [**Part 1.3: Discussion on Type Safety in Haskell's Effect Systems**]({% post_url 2025-05-14-heftia-rev-part-1-3  %})<br>
 [Part 1.4: Future prospects of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-4  %})
 
-今回は少し長くなります。
+This time, it will be a bit longer.
 
 # Composability
 
@@ -40,79 +40,67 @@ What we did was translate the types written in Agda from the papers into Haskell
 
 # Comparison of Approaches
 
-ここでは、Haskellにおけるエフェクトシステムのアプローチごとの特性の比較を行います。
-また、ここでは高階エフェクトを実現できるライブラリのみを対象にしています。
+Here I compare the characteristics of each approach to effect systems in Haskell. I only consider libraries that can realize higher-order effects.
 
-## モナドトランスフォーマー方式
+## Monad Transformer Approach
 
-モナドトランスフォーマー (`mtl`) は、現在Haskellにおいてデファクトスタンダードの方式です。
+The monad transformer (`mtl`) approach is currently the de facto standard in Haskell.
 
-- 型クラスを利用する点と、圏論的背景に起因する合成可能性から、他のどのライブラリとも馴染み、相互互換性の観点では非常に優れています。
+* It leverages type classes and, due to its categorical background, composes well with any other library, making it excellent in terms of interoperability.
 
-- パフォーマンスの観点では、トランスフォーマーのスタックが浅いときは他の方式と比較しても高速であるものの、積み上げるにつれて`ReaderT IO`方式と比較した際の低速さが課題とされています。
+* In terms of performance, it is fast compared to other approaches when the transformer stack is shallow, but as the stack grows deeper, it suffers from slower performance compared to the `ReaderT IO` approach.
 
-- セマンティクスの観点では、`ExceptT`と`StateT`をスタックする順番により挙動が変わるなど、挙動の予測可能性の面で課題があるとされます。
-    この部分は、私の知る限り、背後の圏論的理論においてカバーされていないようです。
-    すなわち、複数のトランスフォーマを合成した場合の相互作用のしかた・操作的意味論に非自明さが残っています。
+* In terms of semantics, its behavior can change depending on the order in which `ExceptT` and `StateT` are stacked, which poses predictability challenges. To the best of my knowledge, this issue is not covered by the underlying categorical theory. In other words, the interaction and operational semantics when composing multiple transformers remains nontrivial.
 
-- 代数的エフェクトの観点では、その操作的意味論及び型システムと`mtl`がどのように結びついているかは不明です。
+* From the perspective of algebraic effects, it is unclear how its operational semantics and type system relate to `mtl`.
 
-## Weaving方式
+## Weaving Approach
 
-この方式は`fused-effects`及び`polysemy`で採用されています。
+This approach is adopted by `fused-effects` and `polysemy`.
 
-- この方式は特性としては`mtl`に近いです。深くスタックした際の低速化、複数のエフェクトを合成した際の意味論の非自明さなどは、`mtl`のものを引き継いでいます。
+* Its characteristics are similar to those of `mtl`. It inherits `mtl`’s performance degradation when deeply stacked and its nontrivial semantics when composing multiple effects.
 
-- また、Weaving操作は圏論的理論との対応関係を持たず、アドホックなものと理解されています[^4]。
-    特に、非決定性エフェクト使用の際の挙動の難解さ[^3]は`mtl`には存在しなかった特性であり、セマンティクスの観点において、圏論的理論との対応の重要さが際立っています。
+* The weaving operation does not correspond to categorical theory and is understood to be ad-hoc[^4]. In particular, the complexity of behavior when using non-deterministic effects[^3] is a characteristic that did not exist in `mtl`, highlighting the importance of correspondence with categorical theory from a semantic standpoint.
 
-    これらの課題があるものの、代数的エフェクトと高階エフェクトの両立を最初に試みた点において、その後の議論の基礎を提供する有意義なものでした。
-    特に、**`polysemy`の内部で使用されている generic free monad 自体は、その後圏論的に分析され、代数的エフェクトの高階エフェクト版の統一的フレームワークを提供するものと分かりました[^6][^8]**。
-    パフォーマンス上の理由からエンコーディングを変更していますが、`heftia`でもgeneric free monadを使用しています。
+  Despite these challenges, this approach was the first to attempt to combine algebraic effects with higher-order effects, and as such provided a meaningful foundation for subsequent discussion.
+  In particular, **the generic free monad used internally by `polysemy` was later analyzed categorically and found to provide a unified framework for the higher-order version of algebraic effects**[^6][^8].
+  Although the encoding has been changed for performance reasons, `heftia` also uses the generic free monad.
 
-- 代数的エフェクトの観点では、意味論の微妙な不一致の他、限定継続をファーストクラスな値としてユーザが使用することができないという制限があります。
+* From the perspective of algebraic effects, there is also the limitation that users cannot treat delimited continuations as first-class values, in addition to subtle semantic mismatches.
 
-## `ReaderT IO` （エビデンスパッシング） 方式
+## `ReaderT IO` (Evidence Passing) Approach
 
-この方式は`effectful`, `bluefin`, `cleff`, `speff`などのライブラリで採用されています[^7]。
+This approach is adopted by libraries such as `effectful`, `bluefin`, `cleff`, and `speff`[^7].
 
-これは他の方式と比較すると特徴的な点がいくつかあります。
+It has several distinctive features compared to other approaches.
 
-- まず、方式の中では最も速度が出やすく、スタックを深くしても低速化しづらいという特徴があります。
+* First, it tends to offer the highest performance and is less prone to slowdown even with a deep stack.
 
-- セマンティクスに関しては、正しく実装した場合、比較的良好な振る舞いを示します。
-    特に、`mtl`やweaving方式のような、スタック順によりセマンティクスが変化する点が見られず、挙動が直感に近いというメリットがあります。
+* In terms of semantics, when implemented correctly, it exhibits relatively good behavior. In particular, unlike `mtl` or the weaving approach, it does not show changes in semantics based on stack order, which is a benefit in terms of predictability.
 
-- 一方で、ランタイムエラー等の不具合なしに実装することのコストが比較的高いです。
-    これは、他の方式の実装プロセスにおいては**型が実装を誘導する**のに対し、`ReaderT IO`方式の実装ではそのような型によるヒントが少ないため、
-    ライブラリの責任において、公開するインターフェースをうまく制限する必要があるためです。
+* On the other hand, the cost of implementing it without runtime errors or other bugs is relatively high. This is because, whereas the types guide the implementation process in other approaches, the `ReaderT IO` approach offers fewer hints from the type system, meaning that the library, under its own responsibility, must carefully restrict the public interface it exposes.
 
-    これについて、「2つの対照的な開発プロセス」の節で後ほど少し詳しく説明します。
+  This topic will be discussed in more detail in the section on the "two contrasting development processes".
 
-- 代数的エフェクトの観点では、限定継続をサポートしないライブラリ (`effectful`, `bluefin`, `cleff`等) とするライブラリ(`speff`等)が両方あり、前者は実用的ですが、後者はいずれも実験的な状態です。
+* From the perspective of algebraic effects, there are both libraries that do not support delimited continuations (`effectful`, `bluefin`, `cleff`, etc.) and those that do (`speff`, etc.), where the former are practical, but the latter are still experimental.
 
-## Elaboration方式
+## Elaboration Approach
 
-この方式は、`heftia`が今回初めて採用した方式です。
+This approach is adopted for the first time by `heftia`.
 
-- 方式の中で唯一、高階エフェクトと、代数的エフェクトの限定継続機能を同時に、かつ型安全に使用することができます。
-    ここで型安全というのは、ランタイムエラー対策は勿論、意味論の完全な正常性、すなわち代数的エフェクトの操作的意味論に従うことを含んでいます。
+* It is the only approach that allows safe use of both higher-order effects and the delimited continuation feature of algebraic effects. Here, type safety includes not only protection against runtime errors but also full semantic correctness, meaning adherence to the operational semantics of algebraic effects.
 
-- セマンティクスは、一階エフェクトの範疇では代数的エフェクトの操作的意味論に完全に一致します。
-    高階エフェクトと組み合わせた場合、スタックする順番による挙動の変化の問題は発生せず、良好な予測可能性を示します。
+* Its semantics fully match those of algebraic effects in the first-order effect domain. When combined with higher-order effects, it does not suffer from behavior changes based on stack order, demonstrating good predictability.
 
-- 限定継続をファーストクラスな値として扱うことができるため、その構文論は代数的エフェクトのそれに最も近いです。
-    すなわち、コード中で限定継続`k`ののようにして変数が出現し、自由に呼び出したり、持ち回したり、状態として保存したりできます。
+* Since delimited continuations can be treated as first-class values, its syntax is closest to that of algebraic effects. In other words, variables representing a delimited continuation `k` can appear in code, be invoked freely, passed around, or stored as state.
 
-- `mtl`, weaving方式と同様、スタックが深くなるにつれて低速化する傾向にあります。
+* Similar to `mtl` and the weaving approach, it tends to slow down as the stack grows deeper.
 
----
-
-最終的には、ユーザ各自が、パフォーマンス・型安全性・多機能性のトレードオフに応じて、どれを採用するかを決定する必要があります。
+Ultimately, each user needs to decide which approach to adopt based on the trade-off between performance, type safety, and functionality.
 
 # Theory-Backed Interface
 
-Consider the billion-dollar mistake of `null` and Java’s current situation with `Optional`:
+Here, as an illustrative example, I’d like to consider the billion-dollar mistake of `null` and Java’s current situation with `Optional`:
 
 {% include linkpreview.html
     url="https://blogs.oracle.com/javamagazine/post/optional-class-null-pointer-drawbacks"
@@ -130,57 +118,67 @@ This is because it is difficult to gradually refine it based on feedback from th
 Effect systems are in the same predicament.
 The proliferation and lack of interoperability of Haskell’s effect systems to date can be seen as interface incompatibilities born of trial and error, due to the absence of a solid, guiding theory for effect systems that combine algebraic and higher-order effects.
 
-## 2つの対照的な開発プロセス
+## Two Contrasting Development Processes
 
-先程、アプローチ間の比較の`ReaderT IO`のところで、型が実装を誘導するというフレーズを使いました。
-これがどういうことかというと、例えば`mtl`においては、`StateT`に対する`runStateT`の実装はほとんど自明で、型エラーをなくす穴埋めパズルを解くようにして実装することができます。
-`heftia`の開発プロセスも同様で、基本的には、型を論文からHaskellに翻訳して持ってきた後、あとはひたすら型パズルを埋める作業のみで作られました。
+Earlier, in the comparison between approaches in the `ReaderT IO` section, I used the phrase “types guide implementation.”
+What that means is, for example, in `mtl`, the implementation of `runStateT` for `StateT` is almost self-evident, and you can implement it by filling in slots to eliminate type errors like solving a puzzle.
+The development process for `heftia` is similar: essentially, after translating the types from the paper into Haskell, it was built by endlessly filling in type puzzles.
 
-つまり、まず最初にデータ型を正しく設計すると、実装は後から自動で付いてくるという、このような開発のスタイルがあります。
-これを型誘導開発とここでは呼びましょう。
+In other words, there is a style of development where, if you first design data types correctly, the implementation follows automatically.
+Let’s call this type-driven development.
 
-型誘導開発のメリットは、ランタイムエラーの可能性を極限まで排除できることです。
-この開発プロセスでは、ランタイムエラーを起こす、すなわち関数を部分関数にすることを許容しないため、全体としてランタイムエラーが存在しないことを保証できます。
-仮にランタイムエラーが発生した場合、それはライブラリの外部に原因であることがはっきりとします。
-これは言い換えれば、インターフェースが自動でランタイムエラーに関して安全になるということでもあります。
+The advantage of type-driven development is that it can minimize the possibility of runtime errors.
+In this development process, causing a runtime error—that is, making a function partial—is not permitted, so you can guarantee that no runtime errors exist overall.
+If a runtime error does occur, it is clearly due to something outside the library.
+In other words, the interface becomes safe with respect to runtime errors automatically.
 
-一方で、`ReaderT IO`方式の開発プロセスでは、部分関数の使用をあまり躊躇しません。
-その代わりに、どのようなケースがランタイムエラーになるかを考え、そのようなケースが起こらないように公開するインターフェースをうまく制限した形で設計し、非安全な関数は非公開モジュールの中に隔離します。
+On the other hand, in the `ReaderT IO` approach, one isn’t all that hesitant to use partial functions.
+Instead, one consider which cases would lead to runtime errors, design the public interface in a suitably constrained way to prevent those cases from occurring, and isolate unsafe functions in non-public modules.
 
-このような開発プロセスは、私自身、`heftia`の`ReaderT IO`バージョンの実装を試みていた際に体験しました。
-`heftia`の現在の型安全なバージョンでは実装することができないようなシグネチャの関数が、`ReaderT IO`の方では実装できてしまいます。
-そしてそれを実行すると、ランタイムエラーが発生します。それを防ぐには、頭を使って、どのような場合にランタイムエラーが発生するかを見極め、インターフェースをうまく制限する必要があります。
+I experienced this process myself when attempting to implement the `ReaderT IO` version of `heftia`.
+Functions with signatures that cannot be implemented in the current type-safe version of `heftia` can be implemented in the `ReaderT IO` version.
+When you run them, runtime errors occur.
+To prevent that, you need to think through when runtime errors will occur and restrict the interface accordingly.
 
-このとき、制限にわかりずらい「穴」があると、通常の使用法では発生しないが、複数の関数やライブラリを特定のパターンで組み合わせた時だけランタイムエラーになるという問題が発生します。
-つまり、最初に述べたcomposabilityが損なわれています。
-この問題の厄介な点は、十分な数のユーザに使用されるまでその穴が見つからないという、「潜伏期間」があるということです。
+Here, if there is an obscure "hole" in those restrictions, a problem arises where runtime errors occur only when certain functions or libraries are combined in a specific pattern, even though they never occur during normal use.
+In other words, the composability mentioned at the outset is compromised.
+The tricky part of this problem is that the hole has a latent period: it isn’t discovered until a sufficient number of users have used the system.
 
-これは過去、各種`ReaderT IO`ライブラリにおいて、公開されている関数を特定の方法で組み合わせると、segmentation faultが発生したり、`unsafeCoerce`関数が実装できてしまうという形で現れてきました:
+In the past, this has manifested in some `ReaderT IO` libraries when publicly exposed functions are combined in specific ways, leading to segmentation faults or even enabling the implementation of `unsafeCoerce`. For example:
 
 - [`unsafeCoerce` derivable from `Coroutine`+`locally`+`abort`](https://github.com/hasura/eff/issues/13)
 - [StateSource can be used to implement unsafeCoerce](https://github.com/tomjaguarpaw/bluefin/issues/49)
 - [phantom type role on State breaks soundness](https://github.com/tomjaguarpaw/bluefin/issues/50)
 
-もちろん、型誘導開発においても、このような「潜伏期間」の問題からは自由ではありません。
-ただしそれは型安全性ではなく、パフォーマンスの予測可能性という形で現れます。
-つまり、一見効率的であるようだが、特定の使い方をすると極端に性能が落ちる、ということがありえるのです。
-これは`polysemy`のスペースリークの例などが当てはまります: [Possible Space Leak](https://github.com/polysemy-research/polysemy/issues/340)
+Of course, type-driven development is not immune to such latent-period issues either.
+However, these appear not as type-safety violations but as unpredictable performance.
+That is, something that seems efficient at first glance can experience drastic performance degradation under certain usage patterns.
+This applies, for instance, to space leaks in `polysemy`: [Possible Space Leak](https://github.com/polysemy-research/polysemy/issues/340)
 
-ただし性能問題は、後に発見された場合でも、インターフェースを変更せずに改善する余地があるため[^9]、エコシステム全体が修正の影響を受けるというリスクが少ないという違いがあります。
-一方でインターフェースの穴は、Javaのnullのように、一度普及しエコシステムに定着してしまうと後の修正が困難になるというリスクがあります。
-現実的には、このようなインターフェースの穴によりエフェクトのエコシステムの大規模な改修が必要になるというリスクはそれほど大きくないのかもしれません。
-しかし、そのリスクを把握しておくことには価値があると思います。
-もちろん、この問題は`ReaderT IO`方式以外も無縁ではありません。
-並行性を利用したインタプリタなどを実装するために`IO`に依存した瞬間、その時点で安全なインターフェースを設計する問題と向き合い始める必要があるからです。
+That said, performance issues have the advantage that even if discovered later,
+there is room for improvement without changing the interface[^9],
+so the risk that the entire ecosystem will be affected by the fix is low.
 
-ただし穴の発生源が、`ReaderT IO`の場合はライブラリのコア部分で起こりうるが、一方で他ではその並行性インタプリタのような一部の部分だけに抑えられる、というように、その局所性において差はあります。
-穴が起きうるunsafeな部分を可能な限り小さく、検証可能にすることが重要です。
+In contrast, holes in the interface, like Java's null, carry the risk that once they become widespread and entrenched in the ecosystem, fixing them later becomes difficult.
+In practice, the risk that such interface holes will necessitate large-scale refactoring of the effects ecosystem may not be that high.
+However, I believe it is valuable to be aware of that risk.
+Of course, this issue is not limited to the `ReaderT IO` approach.
+The moment you depend on `IO` to implement, for example, concurrency interpreters, you must start confronting the problem of designing a safe interface.
 
-この点において, "the Haskell way" offers a superior approach.
-By consistently translating mathematical concepts into Haskell code using algebraic data types, encoding categorical constructs through types, equational reasoning, and parametricity, we can guarantee from the outset the absence of various classes of bugs.
+However, there is a difference in locality: in the case of `ReaderT IO`, the source of the hole can occur in the core of the library, whereas elsewhere it may be confined to only parts such as the concurrency interpreters.
+It is important to keep the unsafe parts where holes may occur as small and verifiable as possible.
+
+In this sense, "the Haskell way" offers a superior approach to avoiding interface holes.
+By consistently translating mathematical concepts into Haskell code using algebraic data types, encoding categorical constructs through types, equational reasoning, and parametricity,
+we can guarantee from the outset the absence of various classes of bugs and holes in the interface.
 
 I firmly believe maintaining this method is critical for the future of Haskell's effect system. Establishing theoretically sound interfaces helps prevent repeated costly migrations.
 `heftia` and `data-effects` are intended as practical proof of this methodology.
+
+Another approach is also possible.
+Instead of guaranteeing such perfect rigor, one could still include unsafe parts at the core of the library,
+while keeping the core of safe primitive functions as small as possible to make it easier to verify that there are no holes.
+This is adopted in `data-effects` for the open union part, which cannot be implemented safely in principle due to Haskell’s lack of extensible sum types, and in the `bluefin` effect library.
 
 From here on, these are purely my personal speculations.
 
@@ -194,7 +192,6 @@ namely separating first-order and higher-order concerns for every effect.
 
 That said, it’s possible that future research will even eliminate the need for such a separation, so I can’t say anything for certain.
 The one thing we can say with confidence is that effect systems remain an evolving field, and nobody yet knows which approach will ultimately prove “correct.”
-
 
 ---
 
@@ -212,8 +209,8 @@ The one thing we can say with confidence is that effect systems remain an evolvi
 
 [^6]: > In this work we propose a generic framework for higher-order effects, generalizing algebraic effects & handlers: a generic free monad with higher-order effect signatures and a corresponding interpreter. <cite><a href="https://dl.acm.org/doi/10.1016/j.scico.2024.103086">A framework for higher-order effects & handlers</a></cite>
 
-[^7]: ただし、`bluefin`に関しては厳密には`ReaderT IO`とは呼ぶことができない（単に`IO`方式）という話があります。依然としてエビデンスパッシング方式ではあります。つまり、`ReaderT IO`とエビデンスパッシングには若干の意味の差があります。
+[^7]: Strictly speaking, `bluefin` may not be accurately described as using `ReaderT IO` (it simply follows the `IO` style). Still, it adopts the evidence-passing approach. That is, there's a subtle difference in meaning between `ReaderT IO` and evidence passing.
 
 [^8]: > In what follows we present the categorical foundations of our generic free monad. <cite><a href="https://dl.acm.org/doi/10.1016/j.scico.2024.103086">A framework for higher-order effects & handlers</a></cite>
 
-[^9]: ただし、polysemyのスペースリーク問題が4年ほどcloseされていないことを鑑みると、あくまで「原理上」の話であることがわかります。
+[^9]: However, given that the space-leak issue in `polysemy` has remained open for about four years, this is purely a theoretical matter.
