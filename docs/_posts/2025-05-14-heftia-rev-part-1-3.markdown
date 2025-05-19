@@ -14,10 +14,10 @@ excerpt: |
 
 This article is the revised version.
 The archive of the pre-revision version is available at: [{% post_url 2025-05-14-heftia-part-1-3 %}]({% post_url 2025-05-14-heftia-part-1-3 %})
-{: .notice--warning}
+{: .notice--info}
 
 This page discusses two contrasting design philosophies, focusing primarily on *type-driven development*, which I am able to explain in more detail. However, please note that the purpose is not to compare them in terms of superiority, but purely to examine the characteristics and trade-offs of each approach.
-{: .notice--primary}
+{: .notice--info}
 
 [Part 1.1: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-1 %})<br>
 [Part 1.2: The performance of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-2  %})<br>

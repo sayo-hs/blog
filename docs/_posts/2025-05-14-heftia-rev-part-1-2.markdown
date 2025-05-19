@@ -14,7 +14,7 @@ excerpt: |
 
 This article is the revised version.
 The archive of the pre-revision version is available at: [{% post_url 2025-05-14-heftia-part-1-2 %}]({% post_url 2025-05-14-heftia-part-1-2 %})
-{: .notice--warning}
+{: .notice--info}
 
 [Part 1.1: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-rev-part-1-1 %})<br>
 [**Part 1.2: The performance of `heftia`**]({% post_url 2025-05-14-heftia-rev-part-1-2  %})<br>
