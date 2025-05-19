@@ -1,7 +1,7 @@
 ---
 title:  "Heftia: The Next Generation of Haskell Effects Management - Part 1.3"
 author: riyo
-date:   2025-05-16 20:52:30 +0900
+date:   2025-05-19 20:52:30 +0900
 categories:
   - heftia
 tags:

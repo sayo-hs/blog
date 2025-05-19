@@ -1,7 +1,8 @@
 ---
 title:  "Heftia: The Next Generation of Haskell Effects Management - Part 1.1"
 author: riyo
-date:   2025-05-16 20:52:28 +0900
+date:   2025-05-19 20:52:28 +0900
+last_modified_at: 2025-05-20 03:58:59 +0900
 categories:
   - heftia
 tags:
@@ -108,14 +109,18 @@ Recent advancements in research on algebraic effects have continued vigorously.
 
 **Leveraging recent theoretical foundations[^1], `heftia` simultaneously provides capabilities for algebraic effects and higher-order effects, while ensuring ultimate type safety.**
 
-## Code Example
+# Code Example
 
 In addition to Hackage, it is also currently available on Stackage Nightly.
 Usage is explained on [Haddock](https://hackage-content.haskell.org/package/heftia-0.7.0.0/docs/Control-Monad-Hefty.html).
 
+## Basic Usage
 The following is an example of defining, using, and interpreting the first-order effect `Log` for logging and the higher-order effect `Span` for representing named spans in a program.
 
 ```hs
+import Control.Monad.Hefty 
+import Prelude hiding (log, span)
+
 data Log :: Effect where
     Log :: String -> Log f ()
 makeEffectF ''Log
@@ -160,8 +165,64 @@ main = runEff . runLog . runSpan $ do
 
 As you can see, the interface is similar to that of `effectful` or `polysemy`, and is very concise.
 
+## Type Inference
+
 Type inference for effects works.
-When using `put`/`get` of `State`, there's no need to explicitly specify types like `@Int` or `... :: Int`.
+When using `put`/`get` of `State`, there's no need to explicitly specify types like `@String` or `... :: String`.
+
+`hello.hs`:
+```hs
+import Control.Monad.Hefty 
+import Control.Monad.Hefty.State
+
+main :: IO ()
+main = runEff $ evalState "" do
+    modify (<> "hello ")
+    modify (<> "world")
+    liftIO . print =<< get
+```
+
+```
+> main
+hello world
+```
+
+## Delimited Continuations
+
+You can easily define your own handlers using delimited continuations in algebraic effects.
+Here is an example of a handler for the non-deterministic computation effect:
+
+```hs
+import Control.Monad.Hefty 
+import Control.Monad
+import Data.List
+
+data NonDet :: Effect where
+    Abort :: NonDet f a
+    Choice :: [a] -> NonDet f a
+makeEffectF ''NonDet
+
+runNonDet :: FOEs es => Eff (NonDet : es) a -> Eff es [a]
+runNonDet =
+    interpretBy (pure . singleton) \case
+        Abort -> \_ -> pure []
+        Choice xs -> \resume -> join <$> mapM resume xs
+
+searchCombination :: NonDet :> es => Eff es (Char, Char)
+searchCombination = do
+    c1 <- choice ['A', 'B', 'C']
+    c2 <- choice ['A', 'B', 'C']
+    if c1 == c2 then
+        abort
+    else
+        pure (c1,c2)
+
+combination :: [(Char, Char)]
+combination = runPure . runNonDet $ searchCombination
+
+-- >>> combination
+-- [('A','B'),('A','C'),('B','A'),('B','C'),('C','A'),('C','B')]
+```
 
 ---
 
