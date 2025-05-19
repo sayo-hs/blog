@@ -184,7 +184,7 @@ main = runEff $ evalState "" do
 
 ```
 > main
-hello world
+"hello world"
 ```
 
 ## Delimited Continuations
