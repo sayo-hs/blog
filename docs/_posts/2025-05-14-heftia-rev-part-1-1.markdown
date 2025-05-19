@@ -2,7 +2,7 @@
 title:  "Heftia: The Next Generation of Haskell Effects Management - Part 1.1"
 author: riyo
 date:   2025-05-19 20:52:28 +0900
-last_modified_at: 2025-05-20 03:58:59 +0900
+last_modified_at: 2025-05-20 05:01:33 +0900
 categories:
   - heftia
 tags:
@@ -170,7 +170,6 @@ As you can see, the interface is similar to that of `effectful` or `polysemy`, a
 Type inference for effects works.
 When using `put`/`get` of `State`, there's no need to explicitly specify types like `@String` or `... :: String`.
 
-`hello.hs`:
 ```hs
 import Control.Monad.Hefty 
 import Control.Monad.Hefty.State
