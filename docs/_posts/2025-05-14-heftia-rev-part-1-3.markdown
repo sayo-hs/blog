@@ -2,7 +2,7 @@
 title:  "Heftia: The Next Generation of Haskell Effects Management - Part 1.3"
 author: riyo
 date:   2025-05-16 10:00:02 +0900
-last_modified_at: 2025-05-19 20:31:55 +0900
+last_modified_at: 2025-05-19 20:45:32 +0900
 categories:
   - heftia
 tags:
@@ -215,7 +215,7 @@ Although not yet proven theoretically, the "Hefty Algebras" paper[^1] strongly s
 
 Currently, the ecosystems of other effect systems have been built without taking this possibility into account.
 As a result, when we eventually move to a system that supports both algebraic effects and higher-order effects, it may require a major overhaul,
-namely separating first-order and higher-order concerns for every effect.
+namely separating first-order and higher-order definitions for every effect.
 
 That said, it’s possible that future research will even eliminate the need for such a separation, so I can’t say anything for certain.
 The one thing we can say with confidence is that effect systems remain an evolving field, and nobody yet knows which approach will ultimately prove “correct.”
