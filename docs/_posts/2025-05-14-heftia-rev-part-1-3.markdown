@@ -2,7 +2,7 @@
 title:  "Heftia: The Next Generation of Haskell Effects Management - Part 1.3"
 author: riyo
 date:   2025-05-16 10:00:02 +0900
-last_modified_at: 2025-05-19 16:17:24 +0900
+last_modified_at: 2025-05-19 16:35:05 +0900
 categories:
   - heftia
 tags:
@@ -125,7 +125,7 @@ The proliferation and lack of interoperability of Haskell’s effect systems to 
 
 ## Two Contrasting Development Processes
 
-Earlier, in the comparison between approaches in the `ReaderT IO` section, I used the phrase “types guide implementation.”
+Earlier, in the `ReaderT IO` approach section, I used the phrase “types guide implementation.”
 What that means is, for example, in `mtl`, the implementation of `runStateT` for `StateT` is almost self-evident, and you can implement it by filling in slots to eliminate type errors like solving a puzzle.
 The development process for `heftia` is similar: essentially, after translating the types from the paper into Haskell, it was built by endlessly filling in type puzzles.
 
