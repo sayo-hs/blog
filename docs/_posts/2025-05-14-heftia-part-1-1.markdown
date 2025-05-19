@@ -12,7 +12,8 @@ excerpt: |
     `heftia` is the first-ever fully type-safe and performant effect system, not just among Haskell libraries but historically across all effect system implementations and languages, to completely implement both *algebraic effects* and *higher-order effects*.
 ---
 
-I am currently revising the article. The article under revision is: [{% post_url 2025-05-14-heftia-rev-part-1-1 %}]({% post_url 2025-05-14-heftia-rev-part-1-1 %})
+This article has been revised. The revised article is:
+[{% post_url 2025-05-14-heftia-rev-part-1-1 %}]({% post_url 2025-05-14-heftia-rev-part-1-1 %})
 {: .notice--warning}
 
 [**Part 1.1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-part-1-1 %})<br>

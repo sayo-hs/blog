@@ -14,7 +14,8 @@ excerpt: |
     Below is a benchmark result of a typical real-world use case involving various effects and IO operations for aggregating file sizes. This benchmark was adapted from one originally used by `effectful`.
 ---
 
-I am currently revising the article. The article under revision is: [{% post_url 2025-05-14-heftia-rev-part-1-2 %}]({% post_url 2025-05-14-heftia-rev-part-1-2 %})
+This article has been revised. The revised article is:
+[{% post_url 2025-05-14-heftia-rev-part-1-2 %}]({% post_url 2025-05-14-heftia-rev-part-1-2 %})
 {: .notice--warning}
 
 [**Part 1.1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-part-1-1 %})<br>

@@ -13,7 +13,7 @@ excerpt: |
     In addition, I intend to provide usage explanations in Part 2 or beyond of this series.
 ---
 
-This article is currently unfinished and will continue to be updated.
+This article is the revised version.
 The archive of the pre-revision version is available at: [{% post_url 2025-05-14-heftia-part-1-4 %}]({% post_url 2025-05-14-heftia-part-1-4 %})
 {: .notice--warning}
 

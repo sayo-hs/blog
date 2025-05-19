@@ -12,7 +12,7 @@ excerpt: |
     `heftia` is the first-ever effect system, not just among Haskell libraries but historically across all effect system implementations and languages, to completely implement both *algebraic effects* and *higher-order effects*.
 ---
 
-This article is currently unfinished and will continue to be updated.
+This article is the revised version.
 The archive of the pre-revision version is available at: [{% post_url 2025-05-14-heftia-part-1-1 %}]({% post_url 2025-05-14-heftia-part-1-1 %})
 {: .notice--warning}
 

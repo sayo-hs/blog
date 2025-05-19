@@ -12,7 +12,8 @@ excerpt: |
     From here, I will describe the issues associated with the current general `IO` monad approach and the broader Haskell effect ecosystem.
 ---
 
-I am currently revising the article. The article under revision is: [{% post_url 2025-05-14-heftia-rev-part-1-3 %}]({% post_url 2025-05-14-heftia-rev-part-1-3 %})
+This article has been revised. The revised article is:
+[{% post_url 2025-05-14-heftia-rev-part-1-3 %}]({% post_url 2025-05-14-heftia-rev-part-1-3 %})
 {: .notice--warning}
 
 [**Part 1.1**: Summary of Part 1 and an overview of `heftia`]({% post_url 2025-05-14-heftia-part-1-1 %})<br>

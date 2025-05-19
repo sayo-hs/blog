@@ -12,7 +12,7 @@ excerpt: |
     You can find all performance measurements for version 0.7 [here](https://github.com/sayo-hs/heftia/blob/v0.7.0.0/benchmark/performance.md).
 ---
 
-This article is currently unfinished and will continue to be updated.
+This article is the revised version.
 The archive of the pre-revision version is available at: [{% post_url 2025-05-14-heftia-part-1-2 %}]({% post_url 2025-05-14-heftia-part-1-2 %})
 {: .notice--warning}
 
