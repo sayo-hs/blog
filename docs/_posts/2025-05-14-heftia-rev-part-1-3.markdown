@@ -54,6 +54,10 @@ The monad transformer (`mtl`) approach is currently the de facto standard in Has
 
 * From the perspective of algebraic effects, it is unclear how its operational semantics and type system relate to `mtl`.
 
+* In practice, there is the n^2 instances problem:
+
+    > For these common transformers, these instances have all been written. However, every time you add an additional transformer - you need to write all these n instances where n is the number of interfaces you intend to use. Thus the n^2 complexity. <cite><a href="https://felixmulder.com/writing/2020/08/08/Revisiting-application-structure.html#the-n2-issue">Revisiting application structure</a></cite>
+
 ## Weaving Approach
 
 This approach is adopted by `fused-effects` and `polysemy`.
@@ -204,8 +208,6 @@ The one thing we can say with confidence is that effect systems remain an evolvi
 [^3]: [Choice of functorial state for runNonDet](https://github.com/polysemy-research/polysemy/issues/246)
 
 [^4]: > Their work also considers the problem of modular composition of handlers, and presents a solution–called “weaving”–based on threading a handler state through unknown operations. This approach is rather ad-hoc; it is not a generalization of the forwarding approach for algebraic effects. <cite><a href="https://arxiv.org/abs/2304.09697">A Calculus for Scoped Effects & Handlers</a></cite>
-
-[^5]: The causes for Freer's perceived slowness are multifaceted. One significant reason, identified in the paper "Reflection without Remorse," can be resolved by using a data structure called `FTCQueue`. In `heftia`, as in `freer-simple`, `FTCQueue` is used to achieve higher performance compared to other Freer implementations.
 
 [^6]: > In this work we propose a generic framework for higher-order effects, generalizing algebraic effects & handlers: a generic free monad with higher-order effect signatures and a corresponding interpreter. <cite><a href="https://dl.acm.org/doi/10.1016/j.scico.2024.103086">A framework for higher-order effects & handlers</a></cite>
 
