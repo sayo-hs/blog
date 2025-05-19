@@ -2,7 +2,7 @@
 title:  "Heftia: The Next Generation of Haskell Effects Management - Part 1.3"
 author: riyo
 date:   2025-05-16 10:00:02 +0900
-last_modified_at: 2025-05-19 16:35:05 +0900
+last_modified_at: 2025-05-19 20:31:55 +0900
 categories:
   - heftia
 tags:
@@ -68,13 +68,13 @@ This approach is adopted by `fused-effects` and `polysemy`.
 
 * Its characteristics are similar to those of `mtl`. It inherits `mtl`’s performance degradation when deeply stacked and its nontrivial semantics when composing multiple effects.
 
-* The weaving operation does not correspond to categorical theory and is understood to be ad-hoc[^4]. In particular, the complexity of behavior when using non-deterministic effects[^3] is a characteristic that did not exist in `mtl`, highlighting the importance of correspondence with categorical theory from a semantic standpoint.
-
-  Despite these challenges, this approach was the first to attempt to combine algebraic effects with higher-order effects, and as such provided a meaningful foundation for subsequent discussion.
-  In particular, **the generic free monad used internally by `polysemy` was later analyzed categorically and found to provide a unified framework for the higher-order version of algebraic effects**[^6][^8].
-  Although the encoding has been changed for performance reasons, `heftia` also uses the generic free monad.
+* The weaving operation does not correspond to categorical theory and is understood to be ad-hoc[^4]. In particular, the complexity of behavior when using non-deterministic effects[^3] is a characteristic that did not exist in `mtl`, highlighting **the importance of correspondence with categorical theory from a semantic standpoint**.
 
 * From the perspective of algebraic effects, there is also the limitation that users cannot treat delimited continuations as first-class values, in addition to subtle semantic mismatches.
+
+Despite these challenges, this approach was the first to attempt to combine algebraic effects with higher-order effects, and as such provided a meaningful foundation for subsequent discussion.
+In particular, **the generic free monad used internally by `polysemy` was later analyzed categorically and found to provide a unified framework for the higher-order version of algebraic effects**[^6][^8].
+Although the encoding has been changed for performance reasons, `heftia` also uses the generic free monad.
 
 ## `ReaderT IO` (Evidence Passing) Approach
 
@@ -103,6 +103,8 @@ This approach is adopted for the first time by `heftia`.
 * Since delimited continuations can be treated as first-class values, its syntax is closest to that of algebraic effects. In other words, variables representing a delimited continuation `k` can appear in code, be invoked freely, passed around, or stored as state.
 
 * Similar to `mtl` and the weaving approach, it tends to slow down as the stack grows deeper.
+
+---
 
 Ultimately, each user needs to decide which approach to adopt based on the trade-off between performance, type safety, and functionality.
 
@@ -203,6 +205,8 @@ Another countermeasure is also possible:
     In particular, by designing the primitives' interfaces based on theory, one can ensure a reliable correspondence between theory and interface.
     For example, in the design of `bluefin`, so that [Lazy functional state threads](https://www.microsoft.com/en-us/research/publication/lazy-functional-state-threads/) provides the theoretical foundation. 
 
+---
+
 From here on, these are purely my personal speculations.
 
 One personal observation I made during the implementation of `heftia` is that
@@ -215,6 +219,8 @@ namely separating first-order and higher-order concerns for every effect.
 
 That said, it’s possible that future research will even eliminate the need for such a separation, so I can’t say anything for certain.
 The one thing we can say with confidence is that effect systems remain an evolving field, and nobody yet knows which approach will ultimately prove “correct.”
+
+However, based on past examples in the `mtl` and Weaving approaches, I believe that designing interfaces by treating algebraic effects and generic free monads—grounded in category theory—as “reference theories” will undoubtedly bolster the future robustness of effect systems.
 
 ---
 
