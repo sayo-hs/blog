@@ -2,6 +2,7 @@
 title:  "Heftia: The Next Generation of Haskell Effects Management - Part 1.3"
 author: riyo
 date:   2025-05-19 20:52:30 +0900
+last_modified_at: 2025-05-20 16:17:42 +0900
 categories:
   - heftia
 tags:
@@ -97,7 +98,7 @@ This approach is adopted for the first time by `heftia`.
 
 * It is the only approach that allows safe use of both higher-order effects and the delimited continuation feature of algebraic effects. Here, type safety includes not only protection against runtime errors but also full semantic correctness, meaning adherence to the operational semantics of algebraic effects.
 
-* Its semantics fully match those of algebraic effects in the first-order effect domain. When combined with higher-order effects, it does not suffer from behavior changes based on stack order, demonstrating good predictability.
+* Its semantics fully match those of algebraic effects in the first-order effect domain. When combined with higher-order effects, effect interpretation presents an understandable semantics, demonstrating good predictability.
 
 * Since delimited continuations can be treated as first-class values, its syntax is closest to that of algebraic effects. In other words, variables representing a delimited continuation `k` can appear in code, be invoked freely, passed around, or stored as state.
 
